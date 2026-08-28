@@ -1,0 +1,6 @@
+{
+  "name": "Nuovo Paradigm",
+  "description": "Comprehensive wealth planning, financial services, elite wealth advisory programs, and client portal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

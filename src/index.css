@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-opensauce: 'Open Sauce Sans', 'Open Sauce', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Open Sauce Sans', 'Open Sauce', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Open Sauce Sans', 'Open Sauce', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --color-nuovo-cyan: #27bac4;
+  --color-nuovo-ocean: #2f9abc;
+  --color-nuovo-navy: #2c72af;
+  --color-nuovo-primary: #27bac4;
+  --color-nuovo-dark: #1b4b75;
+  --color-nuovo-light: #eaf8fa;
+}
+
+@layer base {
+  html,
+  body {
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background-color: #f8fafc;
+  }
+
+  /* Main titles, headings, and bolded typography use Open Sauce Sans */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b,
+  .font-serif,
+  .font-heading,
+  .font-semibold,
+  .font-bold,
+  .font-extrabold,
+  .font-black,
+  button,
+  .btn,
+  .heading-opensauce,
+  .heading-spartan,
+  .heading-poppins,
+  .font-opensauce,
+  .font-spartan {
+    font-family: 'Open Sauce Sans', 'Open Sauce', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+/* Custom Gradients using the exact brand blues: #27bac4, #2f9abc, #2c72af */
+.bg-nuovo-gradient {
+  background: linear-gradient(135deg, #27bac4 0%, #2f9abc 50%, #2c72af 100%);
+}
+
+.bg-nuovo-gradient-rev {
+  background: linear-gradient(135deg, #2c72af 0%, #2f9abc 50%, #27bac4 100%);
+}
+
+.bg-nuovo-gradient-dark {
+  background: linear-gradient(135deg, #1b4b75 0%, #2c72af 60%, #2f9abc 100%);
+}
+
+.text-nuovo-gradient {
+  background: linear-gradient(135deg, #27bac4 0%, #2f9abc 50%, #2c72af 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
