@@ -141,6 +141,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenApplyModal
                   className="w-full h-full object-cover"
                   style={{ objectPosition: imgItem.objectPosition || 'top' }}
                   referrerPolicy="no-referrer"
+                  loading={idx === 0 ? 'eager' : 'lazy'}
+                  fetchPriority={idx === 0 ? 'high' : 'low'}
+                  decoding={idx === 0 ? 'sync' : 'async'}
                   onError={(e) => {
                     if (imgItem.fallbackUrl) {
                       (e.target as HTMLImageElement).src = imgItem.fallbackUrl;

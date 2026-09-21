@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PageId } from '../types';
 import { CORE_SERVICES } from '../data/siteData';
+import { ConsultSpecialistModal } from '../components/ConsultSpecialistModal';
 import {
   Shield,
   Palmtree,
@@ -25,6 +26,7 @@ interface ServicesPageProps {
 
 export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
   const [selectedServiceId, setSelectedServiceId] = useState<string>('insurance-takaful');
+  const [consultTopic, setConsultTopic] = useState<string | null>(null);
 
   const getServiceIcon = (id: string) => {
     switch (id) {
@@ -154,7 +156,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
 
                     <div className="pt-4 flex items-center space-x-4">
                       <button
-                        onClick={() => onNavigate('contact')}
+                        onClick={() => setConsultTopic(service.title)}
                         className="px-5 py-2.5 bg-[#27bac4] hover:bg-[#20aab4] text-white text-xs font-bold rounded-lg shadow-sm flex items-center space-x-2 transition-all"
                       >
                         <span>Consult Our Specialists</span>
@@ -220,6 +222,8 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
           </div>
         </div>
       </section>
+
+      <ConsultSpecialistModal topic={consultTopic} onClose={() => setConsultTopic(null)} />
     </div>
   );
 };

@@ -43,14 +43,14 @@ export const NuovoLogo: React.FC<NuovoLogoProps> = ({
         />
         <div className="flex flex-col text-left leading-none">
           <span
-            className="text-2xl sm:text-3xl font-extrabold tracking-tight uppercase text-slate-800"
-            style={{ fontFamily: "'Open Sauce Sans', 'Open Sauce', sans-serif" }}
+            className="text-2xl sm:text-3xl font-black tracking-wider uppercase text-slate-800"
+            style={{ fontFamily: "'Montserrat', -apple-system, sans-serif", letterSpacing: '0.06em' }}
           >
             NUOVO
           </span>
           <span
-            className="text-sm sm:text-base font-bold tracking-widest uppercase -mt-0.5 text-[#2f9abc]"
-            style={{ fontFamily: "'Open Sauce Sans', 'Open Sauce', sans-serif", letterSpacing: '0.22em' }}
+            className="text-sm sm:text-base font-extrabold tracking-widest uppercase -mt-0.5 text-[#2f9abc]"
+            style={{ fontFamily: "'Montserrat', -apple-system, sans-serif", letterSpacing: '0.18em' }}
           >
             PARADIGM
           </span>
