@@ -62,7 +62,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
           <h2 className="text-2xl sm:text-3xl font-bold font-serif text-slate-900 text-center mb-12">
             Meet Our Leaders
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-y-10 gap-x-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-y-10 gap-x-6 max-w-2xl mx-auto">
             {OUR_LEADERS.map((leader) => (
               <div key={leader.id} className="text-center">
                 <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-slate-200 shadow-sm mx-auto bg-slate-100">

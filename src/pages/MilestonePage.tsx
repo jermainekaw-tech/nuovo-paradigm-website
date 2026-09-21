@@ -72,7 +72,7 @@ export const MilestonePage: React.FC<MilestonePageProps> = ({
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Milestone Journey: Alternating Pin Timeline */}
         <div className="mb-16">
-          <div className="relative left-1/2 w-screen -translate-x-1/2 px-2 sm:px-6 py-16 sm:py-20 overflow-x-auto sm:overflow-x-visible">
+          <div className="relative left-1/2 w-screen -translate-x-1/2 px-2 sm:px-6 py-16 sm:py-20 overflow-x-auto sm:overflow-x-visible no-scrollbar">
             <div className="flex items-stretch gap-2 min-w-[1100px] sm:min-w-0 sm:gap-2">
               {MILESTONES.map((item, index) => {
                 const isUp = index % 2 === 0;

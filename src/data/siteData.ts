@@ -10,9 +10,6 @@ import {
 import jackieTanHeadshotImg from '../assets/images/jackie-tan-headshot.png';
 import bobbyTanHeadshotImg from '../assets/images/bobby-tan-headshot.png';
 import janiceFoonHeadshotImg from '../assets/images/janice-foon-headshot.jpg';
-import audreyLohHeadshotImg from '../assets/images/audrey-loh-headshot.jpg';
-import rajHeadshotImg from '../assets/images/raj-headshot.jpg';
-import eeKahTeikHeadshotImg from '../assets/images/ee-kah-teik-headshot.webp';
 
 export const NAV_ITEMS: NavItem[] = [
   { id: 'home', label: 'Home', href: 'index.html' },
@@ -218,9 +215,6 @@ export const OUR_LEADERS = [
   { id: 'jackie-tan', name: 'Jackie Tan', image: jackieTanHeadshotImg, role: 'Founder & Wealth Director', imageObjectPosition: 'center 8%' },
   { id: 'bobby-tan', name: 'Bobby Tan', image: bobbyTanHeadshotImg, role: 'Wealth Director', imageObjectPosition: 'center 3%' },
   { id: 'janice-foon', name: 'Janice Foon', image: janiceFoonHeadshotImg, role: 'Wealth Director', imageObjectPosition: 'center 10%' },
-  { id: 'audrey-loh', name: 'Audrey Loh', image: audreyLohHeadshotImg, role: '', imageObjectPosition: 'center 10%' },
-  { id: 'raj', name: 'Raj Paneerselvan', image: rajHeadshotImg, role: '', imageObjectPosition: 'center 10%' },
-  { id: 'ee-kah-teik', name: 'Ee Kah Teik', image: eeKahTeikHeadshotImg, role: '', imageObjectPosition: 'center 8%' },
 ];
 
 export const HOME_SLIDER_SECTIONS = [
@@ -848,10 +842,10 @@ export const CONTACT_INFO = {
   regNumber: '779914-D',
   addressLine1: 'Unit No: 1017, Block A, (Lobby 5), 10th Floor, Damansara Intan',
   addressLine2: 'No.1, Jln SS20/27, 47400 Petaling Jaya, Selangor Darul Ehsan, Malaysia',
-  phone: '+60 12-792 8285',
+  phone: '+60 12 702 8285',
   email: 'contact@nuovoparadigm.com',
   cdcEmail: 'cdc@nuovoparadigm.com',
-  internshipEmail: 'Fiza@nuovoparadigm.com',
+  internshipEmail: 'contact@nuovoparadigm.com',
   hours: 'Monday - Friday, 9:00 AM to 6:00 PM (MYT)',
   bankName: 'CIMB BANK MALAYSIA',
   bankAccountName: '1 Stop Capital SDN BHD',

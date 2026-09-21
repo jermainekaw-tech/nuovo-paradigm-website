@@ -31,17 +31,30 @@ export const NuovoLogo: React.FC<NuovoLogoProps> = ({
     );
   }
 
-  // If full dark-text logo in header
-  if (!imgError && variant === 'full') {
+  // Full dark-text logo in header — uses the real checkmark asset (matches the footer mark)
+  // instead of the unreliable external nuovoparadigm.com-hosted image.
+  if (variant === 'full') {
     return (
-      <div className={`inline-flex items-center ${className}`} style={height ? { height } : undefined}>
+      <div className={`inline-flex items-center space-x-2.5 select-none ${className}`} style={height ? { height } : undefined}>
         <img
-          src={ASSETS.logoHorizontal}
-          alt="Nuovo Paradigm"
-          className="h-full w-auto object-contain max-h-24 scale-105 origin-left"
-          referrerPolicy="no-referrer"
-          onError={() => setImgError(true)}
+          src="/images/nuovo-logo-checkmark-transparent.png"
+          alt=""
+          className="h-full max-h-16 w-auto object-contain shrink-0"
         />
+        <div className="flex flex-col text-left leading-none">
+          <span
+            className="text-2xl sm:text-3xl font-extrabold tracking-tight uppercase text-slate-800"
+            style={{ fontFamily: "'Open Sauce Sans', 'Open Sauce', sans-serif" }}
+          >
+            NUOVO
+          </span>
+          <span
+            className="text-sm sm:text-base font-bold tracking-widest uppercase -mt-0.5 text-[#2f9abc]"
+            style={{ fontFamily: "'Open Sauce Sans', 'Open Sauce', sans-serif", letterSpacing: '0.22em' }}
+          >
+            PARADIGM
+          </span>
+        </div>
       </div>
     );
   }

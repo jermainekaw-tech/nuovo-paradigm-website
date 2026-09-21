@@ -12,8 +12,7 @@ interface CDCPageProps {
   onNavigate: (page: PageId) => void;
 }
 
-const CDC_FORM_URL = 'https://secure.jotform.co/form/32243432889863';
-const CDC_FORM_FULL_PAGE_URL = 'https://nuovoparadigm.com/cdc2/';
+const CDC_FORM_URL = 'https://form.jotform.com/32243432889863';
 
 export const CDCPage: React.FC<CDCPageProps> = ({ onNavigate }) => {
   return (
@@ -188,7 +187,7 @@ export const CDCPage: React.FC<CDCPageProps> = ({ onNavigate }) => {
               </p>
             </div>
             <a
-              href={CDC_FORM_FULL_PAGE_URL}
+              href={CDC_FORM_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="shrink-0 inline-flex items-center space-x-1.5 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition-colors"
