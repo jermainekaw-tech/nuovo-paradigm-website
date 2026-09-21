@@ -31,16 +31,21 @@ export const NuovoLogo: React.FC<NuovoLogoProps> = ({
     );
   }
 
-  // Full dark-text logo in header — the exact same artwork as the footer mark
-  // (public/images/nuovo-logo-white.png), with only the white text pixels
-  // recolored to dark slate, so the typeface is pixel-identical, not a web-font approximation.
+  // Full dark-text logo in header — checkmark icon beside the wordmark, both cropped
+  // from the exact same footer artwork (public/images/nuovo-logo-white.png) with the
+  // text recolored to dark slate, so the typeface is pixel-identical, not a web-font approximation.
   if (variant === 'full') {
     return (
-      <div className={`inline-flex items-center ${className}`} style={height ? { height } : undefined}>
+      <div className={`inline-flex items-center space-x-2.5 select-none ${className}`} style={height ? { height } : undefined}>
         <img
-          src="/images/nuovo-logo-dark-text.png"
+          src="/images/nuovo-logo-checkmark-transparent.png"
+          alt=""
+          className="h-full w-auto object-contain shrink-0"
+        />
+        <img
+          src="/images/nuovo-wordmark-two-tone.png"
           alt="Nuovo Paradigm"
-          className="h-full w-auto object-contain max-h-36"
+          className="h-[62%] w-auto object-contain"
         />
       </div>
     );
