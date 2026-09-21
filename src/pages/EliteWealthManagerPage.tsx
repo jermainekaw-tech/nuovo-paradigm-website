@@ -56,13 +56,14 @@ export const EliteWealthManagerPage: React.FC<EliteWealthManagerPageProps> = ({
                 PruVenture Manager is an elite program designed to cultivate high-caliber future agency managers and corporate wealth executives.
               </p>
               <div className="pt-2 flex items-center space-x-4">
-                <a
-                  href="#program-details"
-                  className="px-6 py-3 bg-[#27bac4] hover:bg-[#20aab4] text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-md transition-all flex items-center space-x-2"
+                <button
+                  type="button"
+                  onClick={() => document.getElementById('program-details')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                  className="px-6 py-3 bg-[#27bac4] hover:bg-[#20aab4] text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-md transition-all flex items-center space-x-2 cursor-pointer"
                 >
                   <span>Read More</span>
                   <ArrowRight className="w-4 h-4" />
-                </a>
+                </button>
                 <button
                   onClick={onOpenApplyModal}
                   className="px-6 py-3 bg-white hover:bg-slate-50 text-[#2c72af] border border-sky-300 text-xs font-bold uppercase tracking-wider rounded-xl transition-all"

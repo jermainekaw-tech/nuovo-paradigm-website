@@ -11,6 +11,7 @@ import {
   Building,
   Sparkles,
   MessageSquare,
+  MessageCircle,
 } from 'lucide-react';
 
 interface ContactPageProps {
@@ -27,8 +28,22 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
     message: '',
   });
 
+  const buildWhatsAppUrl = () => {
+    const waNumber = CONTACT_INFO.phone.replace(/\D/g, '');
+    const waMessage = [
+      'New Contact Form Inquiry:',
+      `Name: ${formData.name}`,
+      `Email: ${formData.email}`,
+      `Phone: ${formData.phone}`,
+      `Subject: ${formData.subject}`,
+      `Message: ${formData.message}`,
+    ].join('\n');
+    return `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    window.open(buildWhatsAppUrl(), '_blank', 'noopener,noreferrer');
     setSubmitted(true);
   };
 
@@ -116,7 +131,7 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
               <div className="mb-6">
                 <h3 className="text-2xl font-bold font-serif text-slate-900">Contact Form</h3>
                 <p className="text-xs text-slate-500 mt-1">
-                  We will respond to your inquiry shortly.
+                  We will contact you with a quotation within the same day.
                 </p>
               </div>
 
@@ -127,14 +142,25 @@ export const ContactPage: React.FC<ContactPageProps> = () => {
                   </div>
                   <h4 className="text-xl font-bold text-slate-900 font-serif">Message Received!</h4>
                   <p className="text-sm text-slate-600 max-w-md mx-auto">
-                    Thank you, <strong>{formData.name}</strong>. Your inquiry has been forwarded to our Damansara Intan team. We will reply to <strong>{formData.email}</strong> shortly.
+                    Thank you, <strong>{formData.name}</strong>. We&rsquo;ve opened WhatsApp with your inquiry ready to send to our Damansara Intan team &mdash; they&rsquo;ll reply there, or to <strong>{formData.email}</strong>.
                   </p>
-                  <button
-                    onClick={() => setSubmitted(false)}
-                    className="px-5 py-2 bg-[#2c72af] text-white text-xs font-bold rounded-lg"
+                  <a
+                    href={buildWhatsAppUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer"
                   >
-                    Send Another Note
-                  </button>
+                    <MessageCircle className="w-4 h-4" />
+                    <span>Didn&rsquo;t open? Message us on WhatsApp</span>
+                  </a>
+                  <div>
+                    <button
+                      onClick={() => setSubmitted(false)}
+                      className="px-5 py-2 bg-[#2c72af] text-white text-xs font-bold rounded-lg"
+                    >
+                      Send Another Note
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">

@@ -48,21 +48,26 @@ export const OtherServicesPage: React.FC<OtherServicesPageProps> = ({
   };
 
   return (
-    <div className="w-full bg-slate-50 py-12 sm:py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <span className="inline-block px-3 py-1 rounded-full bg-[#eaf8fa] text-[#27bac4] text-xs font-bold uppercase tracking-wider mb-2">
-            Specialized Insurance &amp; Wealth Solutions
-          </span>
-          <h1 className="text-3xl sm:text-5xl font-bold font-serif text-slate-900 leading-tight">
-            Other Services
-          </h1>
-          <p className="mt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
-            Click on any product below to view detailed coverage scope, policy benefits, tax reliefs, and request custom quotations.
-          </p>
+    <div className="w-full bg-slate-50">
+      {/* Hero: Plain Gradient Background (matches Careers/Products & Services hero colors) */}
+      <section className="relative overflow-hidden bg-gradient-to-r from-[#27bac4] via-[#2f9abc] to-[#2c72af] text-white py-20 sm:py-28 border-b border-[#27bac4]/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+          <div className="max-w-3xl mx-auto text-center flex flex-col items-center space-y-6">
+            <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-sky-200 text-xs font-bold uppercase tracking-wider">
+              Specialized Insurance &amp; Wealth Solutions
+            </span>
+            <h1 className="text-3xl sm:text-5xl font-bold font-serif text-white leading-tight">
+              Other Services
+            </h1>
+            <p className="text-xl font-medium text-sky-100 leading-relaxed">
+              Click on any product below to view detailed coverage scope, policy benefits, tax reliefs, and request custom quotations.
+            </p>
+          </div>
         </div>
+      </section>
 
+      <div className="py-12 sm:py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 8 Product Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {OTHER_SERVICES.map((item) => (
@@ -119,6 +124,7 @@ export const OtherServicesPage: React.FC<OtherServicesPageProps> = ({
             </button>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

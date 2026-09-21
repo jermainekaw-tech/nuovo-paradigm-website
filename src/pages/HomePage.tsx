@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { PageId } from '../types';
-import { TESTIMONIALS, CONTACT_INFO, ASSETS, HERO_ROTATING_IMAGES } from '../data/siteData';
+import { CONTACT_INFO, HERO_ROTATING_IMAGES, WEB3FORMS_ACCESS_KEY } from '../data/siteData';
 import {
-  ChevronLeft,
-  ChevronRight,
   Sparkles,
   CheckCircle2,
-  XCircle,
   ArrowRight,
   TrendingUp,
   ShieldCheck,
   Briefcase,
-  Clock,
   Coins,
   Send,
   User,
@@ -19,11 +15,9 @@ import {
   Phone,
   Calendar,
   ExternalLink,
-  Target,
   Users,
-  Camera,
-  Play,
-  Pause,
+  Paperclip,
+  X,
 } from 'lucide-react';
 
 interface HomePageProps {
@@ -32,10 +26,8 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenApplyModal }) => {
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [currentHeroImg, setCurrentHeroImg] = useState(0);
   const [isHeroPaused, setIsHeroPaused] = useState(false);
-  const [imgErrorMap, setImgErrorMap] = useState<{ [key: string]: boolean }>({});
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -44,6 +36,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenApplyModal
     startDate: '',
     status: 'Employed',
   });
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [resumeError, setResumeError] = useState('');
+  const [isSending, setIsSending] = useState(false);
+  const [sendError, setSendError] = useState('');
 
   // Auto-rotate hero images every 5 seconds
   useEffect(() => {
@@ -62,17 +58,61 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenApplyModal
     setCurrentHeroImg((prev) => (prev - 1 + HERO_ROTATING_IMAGES.length) % HERO_ROTATING_IMAGES.length);
   };
 
-  const nextTestimonial = () => {
-    setActiveTestimonial((prev) => (prev + 1) % TESTIMONIALS.length);
+  const handleResumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    if (!file) {
+      setResumeFile(null);
+      setResumeError('');
+      return;
+    }
+    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    if (!allowedTypes.includes(file.type)) {
+      setResumeError('Please upload a PDF or Word document (.pdf, .doc, .docx).');
+      setResumeFile(null);
+      e.target.value = '';
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setResumeError('File is too large. Please keep it under 5MB.');
+      setResumeFile(null);
+      e.target.value = '';
+      return;
+    }
+    setResumeError('');
+    setResumeFile(file);
   };
 
-  const prevTestimonial = () => {
-    setActiveTestimonial((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
-  };
-
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormSubmitted(true);
+    setIsSending(true);
+    setSendError('');
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: 'New Apply Now Application - Nuovo Paradigm',
+          from_name: formData.name,
+          email: formData.email,
+          Name: formData.name,
+          Phone: formData.phone,
+          'How Soon Can You Start': formData.startDate,
+          'Currently': formData.status,
+          'Resume Filename': resumeFile ? resumeFile.name : 'Not attached',
+        }),
+      });
+      const result = await response.json();
+      if (result.success) {
+        setFormSubmitted(true);
+      } else {
+        setSendError('We could not send your application. Please try again or email us directly at ' + CONTACT_INFO.email + '.');
+      }
+    } catch {
+      setSendError('We could not send your application. Please try again or email us directly at ' + CONTACT_INFO.email + '.');
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -130,7 +170,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenApplyModal
               </p>
               <div className="pt-2 flex flex-wrap gap-4 items-center">
                 <button
-                  onClick={onOpenApplyModal}
+                  onClick={() => onNavigate('elite-wealth-coach')}
                   className="px-7 py-3.5 rounded-xl bg-[#27bac4] hover:bg-[#20aab4] text-white font-bold text-sm shadow-xl hover:shadow-cyan-500/25 transition-all flex items-center space-x-2 group cursor-pointer"
                 >
                   <span>Join Our Success Story</span>
@@ -145,9 +185,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenApplyModal
               </div>
 
               {/* Trust Metrics */}
-              <div className="grid grid-cols-3 gap-4 pt-6 border-t border-slate-700/80 text-left bg-slate-900/60 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-white/10">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-slate-700/80 text-left bg-slate-900/60 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-white/10">
                 <div>
-                  <div className="text-2xl sm:text-3xl font-extrabold text-[#27bac4] font-serif">15+</div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-[#27bac4] font-serif">20+</div>
                   <div className="text-xs text-slate-300 font-medium mt-0.5">Years Established</div>
                 </div>
                 <div>
@@ -158,257 +198,267 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenApplyModal
                   <div className="text-2xl sm:text-3xl font-extrabold text-[#27bac4] font-serif">100%</div>
                   <div className="text-xs text-slate-300 font-medium mt-0.5">Need-Based Planning</div>
                 </div>
+                <div>
+                  <div className="text-2xl sm:text-3xl font-extrabold text-[#27bac4] font-serif">100%</div>
+                  <div className="text-xs text-slate-300 font-medium mt-0.5">Well-Trained, Knowledge-Based Planners</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. CORE DILEMMA SECTION */}
+      {/* 2. ABOUT US & OUR APPROACH */}
       <section className="bg-[#eaf8fa] py-16 sm:py-20 border-b border-sky-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold font-serif text-slate-900 leading-snug">
-              In order for you to enjoy your <span className="text-[#27bac4]">desired</span>, <span className="text-[#27bac4]">balanced</span>, and <span className="text-[#27bac4]">freedom</span> of choice lifestyle, you have to first earn the income that you desire.
+          <div className="max-w-3xl mx-auto text-center mb-14 space-y-4">
+            <span className="inline-block px-3 py-1 rounded-full bg-white text-[#2c72af] text-xs font-bold uppercase tracking-wider">
+              Who We Are
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-slate-900 leading-snug">
+              A One-Stop Wealth Planning Partner
             </h2>
-            <p className="mt-4 text-base font-semibold text-slate-700">The problem is:</p>
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+              Nuovo Paradigm Wealth Planning Services is a professional wealth planning organization dedicated to helping individuals and businesses build, manage, and grow their wealth with greater clarity and confidence. We believe wealth planning should be simple, structured, and personalized &mdash; because we believe in humanity beyond finance.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-sky-100/80 hover:shadow-md transition-shadow">
-              <div className="w-10 h-10 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center mb-4">
-                <XCircle className="w-5 h-5" />
-              </div>
-              <h3 className="font-bold text-slate-900 text-base mb-2">Income Ceiling</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Your current job or corporate role doesn’t give you the ability to earn a significantly higher income regardless of performance.
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="p-6 rounded-2xl bg-white border border-sky-100 shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-9 h-9 rounded-lg bg-[#eaf8fa] text-[#2c72af] flex items-center justify-center font-bold text-sm mb-4">01</div>
+              <h3 className="text-base font-bold text-slate-900 mb-2">Listen</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                We take the time to understand our clients&rsquo; goals, aspirations, concerns, and priorities.
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-sky-100/80 hover:shadow-md transition-shadow">
-              <div className="w-10 h-10 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center mb-4">
-                <Clock className="w-5 h-5" />
-              </div>
-              <h3 className="font-bold text-slate-900 text-base mb-2">Effort vs Reward Disparity</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                You may be putting in excessive hours, overtime, and sacrifices, but the rewards and recognition never reflect your true value.
+            <div className="p-6 rounded-2xl bg-white border border-sky-100 shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-9 h-9 rounded-lg bg-[#eaf8fa] text-[#2c72af] flex items-center justify-center font-bold text-sm mb-4">02</div>
+              <h3 className="text-base font-bold text-slate-900 mb-2">Plan</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                We help clients establish a clear and structured financial roadmap aligned with their circumstances and ambitions.
               </p>
             </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-sky-100/80 hover:shadow-md transition-shadow">
-              <div className="w-10 h-10 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center mb-4">
-                <Target className="w-5 h-5" />
-              </div>
-              <h3 className="font-bold text-slate-900 text-base mb-2">Lack of Future Visibility</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                You are unable to see a compelling future 5 to 10 years down the road in your current career path or company.
+            <div className="p-6 rounded-2xl bg-white border border-sky-100 shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-9 h-9 rounded-lg bg-[#eaf8fa] text-[#2c72af] flex items-center justify-center font-bold text-sm mb-4">03</div>
+              <h3 className="text-base font-bold text-slate-900 mb-2">Coach</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                We provide ongoing guidance and annual financial health reviews to help clients stay accountable and informed.
               </p>
             </div>
+
+            <div className="p-6 rounded-2xl bg-gradient-to-br from-sky-50 to-white border border-sky-200 shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-9 h-9 rounded-lg bg-[#2c72af] text-white flex items-center justify-center font-bold text-sm mb-4">04</div>
+              <h3 className="text-base font-bold text-slate-900 mb-2">Grow</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                We help clients work toward sustainable wealth creation and greater financial confidence over the long term.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-10 max-w-3xl mx-auto bg-white rounded-2xl p-6 sm:p-8 border border-sky-100 shadow-sm text-center">
+            <p className="text-sm text-slate-600 leading-relaxed">
+              Our <strong className="text-slate-900">Personalized Financial Health Check</strong> gives clients a clearer understanding of their short, medium, and long-term financial goals. Following the assessment, clients receive a <strong className="text-slate-900">45-minute annual coaching session</strong> to review progress and reassess their priorities as life evolves.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* 3. TESTIMONIALS CAROUSEL */}
+      {/* 3. WHY NUOVO PARADIGM (TRUST STATS) */}
       <section className="bg-[#2c72af] text-white py-16 sm:py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-12">
-            <p className="text-sky-200 text-xs font-bold uppercase tracking-wider">Real Transformation Stories</p>
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <p className="text-sky-200 text-xs font-bold uppercase tracking-wider">Why Nuovo Paradigm</p>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif mt-2">
-              From Corporate Bottlenecks to Wealth Leaders
+              Great Client Service Starts with Great People
             </h2>
           </div>
 
-          {/* Carousel Card */}
-          <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-md rounded-2xl p-6 sm:p-10 border border-white/15 shadow-2xl relative">
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              <div className="shrink-0 text-center">
-                <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-white/40 shadow-xl mx-auto bg-slate-700 relative">
-                  {!imgErrorMap[TESTIMONIALS[activeTestimonial].id] ? (
-                    <img
-                      src={TESTIMONIALS[activeTestimonial].image}
-                      alt={TESTIMONIALS[activeTestimonial].name}
-                      className="w-full h-full object-cover"
-                      onError={() => {
-                        setImgErrorMap((prev) => ({ ...prev, [TESTIMONIALS[activeTestimonial].id]: true }));
-                      }}
-                    />
-                  ) : (
-                    <div className={`w-full h-full ${TESTIMONIALS[activeTestimonial].avatarBg} flex items-center justify-center text-white text-3xl font-serif font-bold`}>
-                      {TESTIMONIALS[activeTestimonial].name.split(' ').map((n) => n[0]).join('')}
-                    </div>
-                  )}
-                </div>
-                <h4 className="mt-3 text-lg font-bold font-serif">{TESTIMONIALS[activeTestimonial].name}</h4>
-                <p className="text-xs text-sky-200 max-w-xs">{TESTIMONIALS[activeTestimonial].role}</p>
-              </div>
-
-              <div className="space-y-4 text-slate-100 text-sm sm:text-base leading-relaxed italic whitespace-pre-line">
-                <p>&ldquo;{TESTIMONIALS[activeTestimonial].quote}&rdquo;</p>
-              </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 max-w-4xl mx-auto">
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15 text-center">
+              <div className="text-3xl sm:text-4xl font-extrabold text-amber-400 font-serif">90%</div>
+              <p className="text-xs text-sky-100 mt-2">Team members are graduates from diverse academic backgrounds</p>
             </div>
-
-            {/* Navigation Buttons */}
-            <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/15">
-              <div className="flex items-center space-x-2">
-                {TESTIMONIALS.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveTestimonial(idx)}
-                    className={`h-2.5 rounded-full transition-all cursor-pointer ${
-                      activeTestimonial === idx ? 'w-8 bg-amber-400' : 'w-2.5 bg-white/40 hover:bg-white/70'
-                    }`}
-                    aria-label={`Go to slide ${idx + 1}`}
-                  />
-                ))}
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={prevTestimonial}
-                  className="p-2 rounded-full bg-white/15 hover:bg-white/30 transition-colors cursor-pointer"
-                  aria-label="Previous testimonial"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={nextTestimonial}
-                  className="p-2 rounded-full bg-white/15 hover:bg-white/30 transition-colors cursor-pointer"
-                  aria-label="Next testimonial"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              </div>
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15 text-center">
+              <div className="text-3xl sm:text-4xl font-extrabold text-amber-400 font-serif">20%</div>
+              <p className="text-xs text-sky-100 mt-2">Team members are Million Dollar Round Table (MDRT) producers</p>
             </div>
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15 text-center">
+              <Users className="w-6 h-6 text-amber-400 mx-auto mb-2" />
+              <p className="text-xs text-sky-100">Planners pursue RFP, CFP &amp; ChFP professional qualifications</p>
+            </div>
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15 text-center">
+              <ShieldCheck className="w-6 h-6 text-amber-400 mx-auto mb-2" />
+              <p className="text-xs text-sky-100">Tied agency with PruBSN Takaful &amp; franchise holder for as-Salihin</p>
+            </div>
+          </div>
+
+          <div className="text-center mt-10">
+            <button
+              onClick={() => onNavigate('about-us')}
+              className="px-6 py-3 rounded-xl bg-white/15 hover:bg-white/25 text-white border border-white/30 backdrop-blur-md font-semibold text-sm transition-all shadow-lg cursor-pointer"
+            >
+              Meet Our Leaders &amp; Core Values
+            </button>
           </div>
         </div>
       </section>
 
-      {/* 4. IMAGINE 5 YEARS FROM NOW */}
+      {/* 4. OUR SOLUTIONS OVERVIEW */}
       <section className="bg-slate-50 py-16 sm:py-20 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-slate-900">
-              <span className="text-[#27bac4]">Imagine</span> this...
+            <p className="text-[#2c72af] text-xs font-bold uppercase tracking-wider">Our Solutions</p>
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-slate-900 mt-2">
+              Comprehensive Wealth Planning for Every Stage
             </h2>
-            <p className="text-base text-slate-600 mt-2">
-              5 years from now, which reality will you choose?
+            <p className="text-sm text-slate-600 mt-3">
+              From wealth protection and accumulation to wealth creation and distribution &mdash; for individuals and corporates alike.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* The Nuovo Paradigm Path */}
-            <div className="bg-gradient-to-br from-sky-50 to-blue-50/50 p-8 rounded-2xl border border-sky-200 shadow-sm space-y-5">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase">
-                <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Your Life with Nuovo Paradigm</span>
+            {/* Individual Wealth Planning */}
+            <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#eaf8fa] text-[#2c72af] text-xs font-bold uppercase">
+                <TrendingUp className="w-3.5 h-3.5" />
+                <span>Individual Wealth Planning</span>
               </div>
-
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <ShieldCheck className="w-5 h-5 text-[#2c72af] shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="font-bold text-slate-900 text-sm">Freedom of Schedule & Work-Life Balance</h4>
-                    <p className="text-xs text-slate-600 mt-0.5">The power to plan your day on your own terms and strike harmony between personal joy and business success.</p>
+                    <h4 className="font-bold text-slate-900 text-sm">Wealth Protection &amp; Creation</h4>
+                    <p className="text-xs text-slate-600 mt-0.5">Insurance solutions designed to protect financial security while supporting long-term wealth creation.</p>
                   </div>
                 </div>
-
                 <div className="flex items-start space-x-3">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <Coins className="w-5 h-5 text-[#2c72af] shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="font-bold text-slate-900 text-sm">Control Over Your Financial Destiny</h4>
-                    <p className="text-xs text-slate-600 mt-0.5">No arbitrary salary caps. Your income directly mirrors your dedication, skill, and client impact.</p>
+                    <h4 className="font-bold text-slate-900 text-sm">Wealth Accumulation</h4>
+                    <p className="text-xs text-slate-600 mt-0.5">Investment and wealth accumulation solutions to help clients grow assets and achieve financial goals.</p>
                   </div>
                 </div>
-
                 <div className="flex items-start space-x-3">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-5 h-5 text-[#2c72af] shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="font-bold text-slate-900 text-sm">Abundance & Leadership Culture</h4>
-                    <p className="text-xs text-slate-600 mt-0.5">Surround yourself with mentors who uplift you and celebrate your milestones together.</p>
+                    <h4 className="font-bold text-slate-900 text-sm">Wealth Distribution</h4>
+                    <p className="text-xs text-slate-600 mt-0.5">Will, Trust, and estate planning solutions to help clients distribute their wealth according to their wishes.</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <Sparkles className="w-5 h-5 text-[#2c72af] shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="font-bold text-slate-900 text-sm">Islamic Wealth Planning</h4>
+                    <p className="text-xs text-slate-600 mt-0.5">Solutions aligned with Islamic financial and estate planning principles.</p>
                   </div>
                 </div>
               </div>
+              <div className="pt-3 border-t border-slate-100 text-xs font-semibold text-slate-500">
+                Our Goal: Protect &rarr; Accumulate &rarr; Distribute &rarr; Leave a Legacy
+              </div>
+              <button
+                onClick={() => onNavigate('services')}
+                className="text-xs font-bold text-[#2c72af] hover:underline flex items-center space-x-1 cursor-pointer"
+              >
+                <span>Explore Products &amp; Services</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
             </div>
 
-            {/* The Stagnant Corporate Path */}
-            <div className="bg-slate-100/80 p-8 rounded-2xl border border-slate-200 text-slate-600 space-y-5">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-rose-100 text-rose-800 text-xs font-bold uppercase">
-                <XCircle className="w-3.5 h-3.5 text-rose-600" />
-                <span>Staying Where You Are</span>
+            {/* Corporate Solutions */}
+            <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#eaf8fa] text-[#2c72af] text-xs font-bold uppercase">
+                <Briefcase className="w-3.5 h-3.5" />
+                <span>Corporate Solutions</span>
               </div>
-
-              <div className="space-y-4 text-xs">
-                <div className="flex items-start space-x-3">
-                  <XCircle className="w-5 h-5 text-rose-500 shrink-0 mt-0.5" />
-                  <div>
-                    <h4 className="font-bold text-slate-800 text-sm">Time-Constrained & Overwhelmed</h4>
-                    <p className="text-slate-600 mt-0.5">Locked into rigid 9-to-6 routines with endless meetings and no personal time for health or family.</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-3">
-                  <XCircle className="w-5 h-5 text-rose-500 shrink-0 mt-0.5" />
-                  <div>
-                    <h4 className="font-bold text-slate-800 text-sm">Annual Stagnation</h4>
-                    <p className="text-slate-600 mt-0.5">Hitting KPIs year after year only to reset back to zero with modest incremental increments.</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-3">
-                  <XCircle className="w-5 h-5 text-rose-500 shrink-0 mt-0.5" />
-                  <div>
-                    <h4 className="font-bold text-slate-800 text-sm">Compromised Family Dreams</h4>
-                    <p className="text-slate-600 mt-0.5">Unable to afford the quality lifestyle, overseas experiences, or education you envisioned for loved ones.</p>
-                  </div>
-                </div>
-              </div>
+              <p className="text-xs text-slate-500">
+                Supporting businesses in protecting their organizations, people, and key assets.
+              </p>
+              <ul className="space-y-2.5 text-xs text-slate-600">
+                <li className="flex items-start space-x-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#2c72af] shrink-0 mt-0.5" />
+                  <span><strong className="text-slate-900">Group Insurance</strong> &mdash; employee protection that complements existing benefits.</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#2c72af] shrink-0 mt-0.5" />
+                  <span><strong className="text-slate-900">Company General Insurance</strong> &mdash; managing operational and commercial risks.</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#2c72af] shrink-0 mt-0.5" />
+                  <span><strong className="text-slate-900">Directors&rsquo; &amp; Keyman Insurance</strong> &mdash; safeguarding against the loss of key decision-makers.</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#2c72af] shrink-0 mt-0.5" />
+                  <span><strong className="text-slate-900">Buy-Sell Agreements &amp; Business Protection Trusts</strong> &mdash; continuity and succession planning.</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#2c72af] shrink-0 mt-0.5" />
+                  <span><strong className="text-slate-900">Employee Financial Education</strong> &mdash; sessions to improve financial knowledge and awareness.</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#2c72af] shrink-0 mt-0.5" />
+                  <span><strong className="text-slate-900">Dive Accident &amp; Travel Insurance</strong> &mdash; specialized protection for diving and travel activities.</span>
+                </li>
+              </ul>
+              <button
+                onClick={() => onNavigate('other-services')}
+                className="text-xs font-bold text-[#2c72af] hover:underline flex items-center space-x-1 cursor-pointer pt-1"
+              >
+                <span>View General Insurance &amp; More</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 5. 4-STEP HOW TO START */}
+      {/* 5. CORPORATE FINANCIAL EDUCATION & OUR COMMITMENT */}
       <section className="py-16 sm:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <p className="text-[#2c72af] text-xs font-bold uppercase tracking-wider">How to Start?</p>
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <p className="text-[#2c72af] text-xs font-bold uppercase tracking-wider">Beyond Financial Products</p>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif text-slate-900 mt-2">
-              Here&rsquo;s the deal and it&rsquo;s super simple…
+              Coaching Our Clients to Soar Higher
             </h2>
+            <p className="text-sm text-slate-600 mt-3 leading-relaxed">
+              We regularly conduct physical and virtual financial education sessions for corporate clients and their employees &mdash; increasing awareness and providing practical knowledge on financial planning, protection, wealth accumulation, and distribution.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 relative group hover:border-[#2c72af] transition-all">
-              <div className="text-3xl font-extrabold text-[#2c72af] font-serif mb-3">Step 1.</div>
-              <h3 className="text-base font-bold text-slate-900 mb-2">Apply through the form</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Fill in your details below. Wait for our call — we would love to get to know you and your ambitions!
-              </p>
-            </div>
+          <div className="flex flex-wrap justify-center gap-2.5 max-w-4xl mx-auto mb-14">
+            {[
+              'Financial Health Check',
+              'The Importance of Insurance',
+              'Money Management',
+              'Estate Planning',
+              'Financial Freedom',
+              'Personal Wealth Planning',
+              'Employee Financial Well-Being',
+              'Family Financial Planning',
+              'Career Briefings',
+              'Family Gathering Day',
+              'People First ESG',
+            ].map((topic) => (
+              <span
+                key={topic}
+                className="px-3.5 py-1.5 rounded-full bg-[#eaf8fa] text-[#2c72af] text-xs font-semibold"
+              >
+                {topic}
+              </span>
+            ))}
+          </div>
 
-            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 relative group hover:border-[#2c72af] transition-all">
-              <div className="text-3xl font-extrabold text-[#2c72af] font-serif mb-3">Step 2.</div>
-              <h3 className="text-base font-bold text-slate-900 mb-2">Join &amp; Learn</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Qualify and undergo our structured onboarding curriculum, 1-on-1 mentorship, and practical fieldwork.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 relative group hover:border-[#2c72af] transition-all">
-              <div className="text-3xl font-extrabold text-[#2c72af] font-serif mb-3">Step 3.</div>
-              <h3 className="text-base font-bold text-slate-900 mb-2">Follow our proven system</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Execute daily best practices with our guidance to build a thriving, sustainable financial client base.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-gradient-to-br from-sky-50 to-[#eaf8fa] border border-sky-200 relative group hover:shadow-md transition-all">
-              <div className="text-3xl font-extrabold text-[#2c72af] font-serif mb-3">Step 4.</div>
-              <h3 className="text-base font-bold text-slate-900 mb-2">Million Dollar Success</h3>
-              <p className="text-xs text-slate-700 leading-relaxed">
-                Achieve industry recognition, prestigious awards, and build multi-generational personal wealth.
-              </p>
-            </div>
+          <div className="max-w-3xl mx-auto bg-gradient-to-br from-[#173e60] via-[#0b2742] to-slate-950 text-white rounded-3xl p-8 sm:p-10 text-center space-y-4 shadow-xl">
+            <img
+              src="/images/nuovo-logo-checkmark-transparent.png"
+              alt="Nuovo Paradigm"
+              className="h-10 w-auto mx-auto"
+            />
+            <p className="text-base sm:text-lg font-serif leading-relaxed">
+              &ldquo;At Nuovo Paradigm Wealth Planning Services, we provide comprehensive wealth planning solutions designed to support our clients through every stage of their financial journey &mdash; from wealth protection and accumulation to wealth creation and distribution.&rdquo;
+            </p>
           </div>
         </div>
       </section>
@@ -437,10 +487,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenApplyModal
                   </div>
                   <h4 className="text-xl font-bold text-slate-900 font-serif">Application Received!</h4>
                   <p className="text-sm text-slate-600 max-w-md mx-auto">
-                    Thank you, <strong>{formData.name}</strong>. Our recruitment coordinator will contact you shortly to schedule an interview.
+                    Thank you, <strong>{formData.name}</strong>. We&rsquo;ve emailed your application to our talent team &mdash; our recruitment coordinator will contact you shortly to schedule an interview.
                   </p>
                   <button
-                    onClick={() => setFormSubmitted(false)}
+                    onClick={() => {
+                      setFormSubmitted(false);
+                      setResumeFile(null);
+                    }}
                     className="mt-4 px-5 py-2 bg-[#2c72af] text-white text-xs font-bold rounded-lg cursor-pointer"
                   >
                     Submit Another Response
@@ -448,6 +501,11 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenApplyModal
                 </div>
               ) : (
                 <form onSubmit={handleFormSubmit} className="space-y-4">
+                  {sendError && (
+                    <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-xs text-rose-700">
+                      {sendError}
+                    </div>
+                  )}
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
                       Name - (as per IC) *
@@ -538,13 +596,50 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenApplyModal
                     </div>
                   </div>
 
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Attach Your Resume/CV
+                    </label>
+                    {resumeFile ? (
+                      <div className="flex items-center justify-between px-3 py-2 text-xs border border-slate-300 rounded-lg bg-slate-50">
+                        <span className="flex items-center space-x-2 text-slate-700 truncate">
+                          <Paperclip className="w-3.5 h-3.5 text-[#2c72af] shrink-0" />
+                          <span className="truncate">{resumeFile.name}</span>
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setResumeFile(null)}
+                          className="p-1 text-slate-400 hover:text-slate-700 shrink-0"
+                          aria-label="Remove attached resume"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ) : (
+                      <label className="flex items-center space-x-2 px-3 py-2 text-xs border border-dashed border-slate-300 rounded-lg text-slate-500 hover:border-[#2c72af] hover:text-[#2c72af] cursor-pointer transition-colors">
+                        <Paperclip className="w-3.5 h-3.5 shrink-0" />
+                        <span>Click to upload PDF or Word document (max 5MB)</span>
+                        <input
+                          type="file"
+                          accept=".pdf,.doc,.docx"
+                          onChange={handleResumeChange}
+                          className="hidden"
+                        />
+                      </label>
+                    )}
+                    {resumeError && (
+                      <p className="text-[11px] text-rose-600 mt-1">{resumeError}</p>
+                    )}
+                  </div>
+
                   <div className="pt-2 flex justify-end">
                     <button
                       type="submit"
-                      className="px-6 py-2.5 bg-[#27bac4] hover:bg-[#20aab4] text-white text-xs font-bold rounded-lg shadow-sm flex items-center space-x-2 transition-all cursor-pointer"
+                      disabled={isSending}
+                      className="px-6 py-2.5 bg-[#27bac4] hover:bg-[#20aab4] disabled:opacity-60 disabled:cursor-not-allowed text-white text-xs font-bold rounded-lg shadow-sm flex items-center space-x-2 transition-all cursor-pointer"
                     >
                       <Send className="w-3.5 h-3.5" />
-                      <span>Apply Now!</span>
+                      <span>{isSending ? 'Sending...' : 'Apply Now!'}</span>
                     </button>
                   </div>
                 </form>

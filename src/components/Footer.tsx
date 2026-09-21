@@ -135,14 +135,6 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </li>
               <li>
                 <button
-                  onClick={(e) => handleLinkClick('cdc2', e)}
-                  className="hover:text-white transition-colors text-left text-[#6ee7b7] font-semibold hover:underline cursor-pointer"
-                >
-                  Comprehensive Dive Coverage (CDC)
-                </button>
-              </li>
-              <li>
-                <button
                   onClick={(e) => handleLinkClick('psp', e)}
                   className="hover:text-white transition-colors text-left text-blue-100/90 hover:underline cursor-pointer"
                 >

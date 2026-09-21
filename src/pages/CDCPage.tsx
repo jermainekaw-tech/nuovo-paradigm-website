@@ -1,69 +1,43 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PageId } from '../types';
-import { CDC_PACKAGES, CONTACT_INFO } from '../data/siteData';
+import { CONTACT_INFO } from '../data/siteData';
 import {
   Waves,
-  Shield,
-  CheckCircle2,
-  Phone,
-  Mail,
-  FileText,
   AlertCircle,
-  Calculator,
-  Send,
   ExternalLink,
   ArrowRight,
-  Sparkles,
 } from 'lucide-react';
 
 interface CDCPageProps {
   onNavigate: (page: PageId) => void;
 }
 
+const CDC_FORM_URL = 'https://secure.jotform.co/form/32243432889863';
+const CDC_FORM_FULL_PAGE_URL = 'https://nuovoparadigm.com/cdc2/';
+
 export const CDCPage: React.FC<CDCPageProps> = ({ onNavigate }) => {
-  const [selectedPlan, setSelectedPlan] = useState<string>('dive-travel-int1');
-  const [duration, setDuration] = useState<'annual' | 'weekly'>('annual');
-  const [applicantSubmitted, setApplicantSubmitted] = useState(false);
-
-  const [formData, setFormData] = useState({
-    fullName: '',
-    passportIC: '',
-    dob: '',
-    email: '',
-    phone: '',
-    plan: 'dive-travel-int1',
-    duration: 'annual',
-    startDate: '',
-  });
-
-  const getSelectedPrice = () => {
-    const pkg = CDC_PACKAGES.find((p) => p.id === selectedPlan);
-    if (!pkg) return 0;
-    if (pkg.annualMYR === 0) return pkg.weeklyMYR;
-    return duration === 'annual' ? pkg.annualMYR : pkg.weeklyMYR;
-  };
-
-  const handleApplicationSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setApplicantSubmitted(true);
-  };
-
   return (
-    <div className="w-full bg-slate-50 py-12 sm:py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#eaf8fa] text-[#27bac4] text-xs font-bold uppercase tracking-wider">
-            <Waves className="w-3.5 h-3.5" />
-            <span>Comprehensive Dive Coverage (CDC)</span>
+    <div className="w-full bg-slate-50">
+      {/* Hero: Plain Gradient Background (mirrors the About/Careers page hero) */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#173e60] via-[#0b2742] to-slate-950 py-20 sm:py-28 border-b border-[#173e60]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+          <div className="max-w-3xl mx-auto text-center flex flex-col items-center space-y-6">
+            <span className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 text-sky-200 text-xs font-bold uppercase tracking-wider">
+              <Waves className="w-3.5 h-3.5" />
+              <span>Comprehensive Dive Coverage (CDC)</span>
+            </span>
+            <h1 className="text-3xl sm:text-5xl font-bold font-serif text-white leading-tight">
+              Dive &amp; Travel Protection Plans
+            </h1>
+            <p className="text-xl font-medium text-[#27bac4] leading-relaxed">
+              Nuovo Paradigm brings you bundled international travel protection with dedicated hyperbaric decompression chamber treatment, partnered with DiveAssist, Generali, and Northcott Global Solutions.
+            </p>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-bold font-serif text-slate-900 leading-tight">
-            Dive &amp; Travel Protection Plans
-          </h1>
-          <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-            Nuovo Paradigm brings you bundled international travel protection with dedicated hyperbaric decompression chamber treatment, partnered with DiveAssist, Generali, and Northcott Global Solutions.
-          </p>
         </div>
+      </section>
+
+      <div className="py-12 sm:py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* 1. PRICING COMPARISON TABLE (from cdc2.html background: #d2eff5) */}
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md mb-12">
@@ -201,183 +175,40 @@ export const CDCPage: React.FC<CDCPageProps> = ({ onNavigate }) => {
           </div>
         </div>
 
-        {/* 3. INTERACTIVE APPLICATION FORM */}
-        <div className="bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-lg">
-          <div className="max-w-2xl mb-8">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#2c72af]">Fast Digital Issuance</span>
-            <h3 className="text-2xl sm:text-3xl font-bold font-serif text-slate-900 mt-1">
-              CDC Application Form
-            </h3>
-            <p className="text-xs text-slate-500 mt-1">
-              Complete your coverage details. You will receive an official confirmation slip and payment receipt instructions.
-            </p>
+        {/* 3. CDC APPLICATION FORM (embedded from the original site) */}
+        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-lg">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <div className="max-w-2xl">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#2c72af]">Fast Digital Issuance</span>
+              <h3 className="text-2xl sm:text-3xl font-bold font-serif text-slate-900 mt-1">
+                CDC Application Form
+              </h3>
+              <p className="text-xs text-slate-500 mt-1">
+                Complete your coverage details directly below &mdash; you&rsquo;ll receive an official confirmation and payment instructions.
+              </p>
+            </div>
+            <a
+              href={CDC_FORM_FULL_PAGE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 inline-flex items-center space-x-1.5 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition-colors"
+            >
+              <span>Open in New Tab</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
           </div>
 
-          {applicantSubmitted ? (
-            <div className="text-center py-10 space-y-4 bg-sky-50/50 rounded-2xl border border-sky-100 p-8">
-              <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
-                <CheckCircle2 className="w-8 h-8" />
-              </div>
-              <h4 className="text-xl font-bold text-slate-900 font-serif">Application Submitted Successfully!</h4>
-              <p className="text-sm text-slate-600 max-w-lg mx-auto leading-relaxed">
-                Thank you, <strong>{formData.fullName}</strong>. Your CDC request has been queued. Please proceed to transfer the total of <strong className="text-[#2c72af]">RM {getSelectedPrice()}</strong> to CIMB Account <strong>{CONTACT_INFO.bankAccountNumber}</strong> and email the transaction slip to <strong>{CONTACT_INFO.cdcEmail}</strong>.
-              </p>
-              <div className="pt-2 flex justify-center gap-3">
-                <button
-                  onClick={() => onNavigate('psp')}
-                  className="px-5 py-2.5 bg-emerald-600 text-white text-xs font-bold rounded-lg shadow-sm"
-                >
-                  Go To Payment Details (PSP)
-                </button>
-                <button
-                  onClick={() => setApplicantSubmitted(false)}
-                  className="px-5 py-2.5 bg-slate-200 text-slate-800 text-xs font-bold rounded-lg"
-                >
-                  Submit Another Application
-                </button>
-              </div>
-            </div>
-          ) : (
-            <form onSubmit={handleApplicationSubmit} className="space-y-6">
-              {/* Plan Selection Radio Cards */}
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-2">Select Your Coverage Plan *</label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                  {CDC_PACKAGES.map((pkg) => (
-                    <div
-                      key={pkg.id}
-                      onClick={() => {
-                        setSelectedPlan(pkg.id);
-                        setFormData({ ...formData, plan: pkg.id });
-                      }}
-                      className={`p-4 rounded-xl border cursor-pointer transition-all ${
-                        selectedPlan === pkg.id
-                          ? 'border-[#2c72af] bg-sky-50/60 ring-2 ring-[#2c72af]/20'
-                          : 'border-slate-200 hover:border-slate-300'
-                      }`}
-                    >
-                      <div className="text-xs font-bold text-slate-900 mb-1">{pkg.name}</div>
-                      <div className="text-sm font-extrabold text-[#2c72af]">
-                        {pkg.annualMYR > 0 ? `RM ${pkg.annualMYR}/yr` : `RM ${pkg.weeklyMYR}/trip`}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Duration Toggle */}
-              <div>
-                <label className="block text-xs font-bold text-slate-700 mb-2">Billing Term *</label>
-                <div className="inline-flex rounded-lg border border-slate-300 p-1 bg-slate-50 text-xs">
-                  <button
-                    type="button"
-                    onClick={() => setDuration('annual')}
-                    className={`px-4 py-1.5 rounded-md font-semibold transition-all ${
-                      duration === 'annual'
-                        ? 'bg-[#2c72af] text-white shadow-xs'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    Annual Policy
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setDuration('weekly')}
-                    className={`px-4 py-1.5 rounded-md font-semibold transition-all ${
-                      duration === 'weekly'
-                        ? 'bg-[#2c72af] text-white shadow-xs'
-                        : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    Weekly / Single Trip
-                  </button>
-                </div>
-              </div>
-
-              {/* Applicant Fields */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Full Name (as per Passport / IC) *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Full Legal Name"
-                    value={formData.fullName}
-                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2c72af]"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Passport / NRIC No. *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. A12345678 or 900101-14-XXXX"
-                    value={formData.passportIC}
-                    onChange={(e) => setFormData({ ...formData, passportIC: e.target.value })}
-                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2c72af]"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Email Address *</label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="diver@example.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2c72af]"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Phone Number *</label>
-                  <input
-                    type="tel"
-                    required
-                    placeholder="+60 12-345 6789"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2c72af]"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-700 mb-1">Coverage Start Date *</label>
-                  <input
-                    type="date"
-                    required
-                    value={formData.startDate}
-                    onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                    className="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2c72af]"
-                  />
-                </div>
-              </div>
-
-              {/* Total & Submit */}
-              <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div>
-                  <span className="text-xs text-slate-500">Calculated Premium:</span>
-                  <div className="text-2xl font-extrabold text-[#2c72af] font-serif">
-                    RM {getSelectedPrice()}
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  className="px-8 py-3 bg-[#27bac4] hover:bg-[#20aab4] text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-md flex items-center space-x-2 transition-all"
-                >
-                  <Send className="w-4 h-4" />
-                  <span>Submit CDC Application</span>
-                </button>
-              </div>
-            </form>
-          )}
+          <div className="rounded-2xl overflow-hidden border border-slate-200">
+            <iframe
+              title="Comprehensive Dive Coverage (CDC) Application Form"
+              src={CDC_FORM_URL}
+              className="w-full"
+              style={{ height: '1860px' }}
+              loading="lazy"
+            />
+          </div>
         </div>
+      </div>
       </div>
     </div>
   );

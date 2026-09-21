@@ -8,6 +8,9 @@ import {
   FileText,
   TrendingUp,
   Compass,
+  Car,
+  Scroll,
+  Waves,
   CheckCircle2,
   ArrowRight,
   Sparkles,
@@ -37,6 +40,12 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
         return <TrendingUp className="w-6 h-6" />;
       case 'islamic-wealth-planning':
         return <Compass className="w-6 h-6" />;
+      case 'general-insurance':
+        return <Car className="w-6 h-6" />;
+      case 'will-and-trust':
+        return <Scroll className="w-6 h-6" />;
+      case 'dive-coverage':
+        return <Waves className="w-6 h-6" />;
       default:
         return <Shield className="w-6 h-6" />;
     }
@@ -60,18 +69,21 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
           </div>
 
           {/* Quick Pillar Tabs */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-3">
             {CORE_SERVICES.map((srv) => (
-              <a
+              <button
                 key={srv.id}
-                href={`#${srv.id}`}
-                className="p-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 backdrop-blur-xs flex flex-col items-center text-center transition-all group"
+                type="button"
+                onClick={() => {
+                  document.getElementById(srv.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+                className="p-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 backdrop-blur-xs flex flex-col items-center text-center transition-all group cursor-pointer"
               >
                 <div className="text-sky-300 group-hover:scale-110 transition-transform mb-2">
                   {getServiceIcon(srv.id)}
                 </div>
                 <span className="text-xs font-bold leading-tight">{srv.title}</span>
-              </a>
+              </button>
             ))}
           </div>
         </div>
@@ -149,7 +161,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
                         <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                       <button
-                        onClick={() => onNavigate('other-services')}
+                        onClick={() => onNavigate(service.id === 'dive-coverage' ? 'cdc2' : 'other-services')}
                         className="text-xs font-semibold text-[#2c72af] hover:underline"
                       >
                         View Specialized Products &rarr;

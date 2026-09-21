@@ -27,6 +27,7 @@ export interface Testimonial {
   name: string;
   role?: string;
   image: string;
+  imageObjectPosition?: string;
   fallbackImage?: string;
   avatarBg: string;
   quote: string;

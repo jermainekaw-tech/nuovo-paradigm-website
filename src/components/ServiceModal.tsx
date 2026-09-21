@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { OtherServiceItem } from '../types';
+import { CONTACT_INFO } from '../data/siteData';
 import {
   X,
   CheckCircle,
@@ -7,6 +8,7 @@ import {
   ArrowRight,
   Sparkles,
   Info,
+  MessageCircle,
 } from 'lucide-react';
 
 interface ServiceModalProps {
@@ -28,10 +30,33 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({
     notes: '',
   });
 
+  useEffect(() => {
+    setFormSubmitted(false);
+    setFormData({ name: '', email: '', phone: '', notes: '' });
+  }, [service?.id]);
+
   if (!service) return null;
+
+  const handleClose = () => {
+    setFormSubmitted(false);
+    setFormData({ name: '', email: '', phone: '', notes: '' });
+    onClose();
+  };
+
+  const buildWhatsAppUrl = () => {
+    const waNumber = CONTACT_INFO.phone.replace(/\D/g, '');
+    const waMessage = [
+      `New Inquiry: ${service.title}`,
+      `Name: ${formData.name}`,
+      `Email: ${formData.email}`,
+      `Phone: ${formData.phone}`,
+    ].join('\n');
+    return `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    window.open(buildWhatsAppUrl(), '_blank', 'noopener,noreferrer');
     setFormSubmitted(true);
   };
 
@@ -40,7 +65,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({
       <div className="relative w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-200 flex flex-col md:flex-row max-h-[90vh]">
         {/* Close button */}
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="absolute top-4 right-4 z-20 p-2 rounded-full bg-slate-800/20 md:bg-white/80 hover:bg-slate-200 text-slate-800 transition-colors"
           aria-label="Close modal"
         >
@@ -106,20 +131,34 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({
 
             {/* Quick Inquire Form */}
             <div className="mt-6 pt-6 border-t border-slate-200">
-              <h5 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-1.5">
+              <h5 className="text-sm font-bold text-slate-900 mb-1 flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4 text-[#2c72af]" />
                 Request Custom Quotation or Policy Advice
               </h5>
+              <p className="text-xs text-slate-500 mb-3">
+                We will contact you with a quotation within the same day.
+              </p>
 
               {formSubmitted ? (
-                <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-sm flex items-center space-x-3">
-                  <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
-                  <div>
-                    <p className="font-bold">Request Received!</p>
-                    <p className="text-xs text-emerald-700 mt-0.5">
-                      Our planner will contact you within 24 business hours regarding <strong>{service.title}</strong>.
-                    </p>
+                <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-sm space-y-3">
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
+                    <div>
+                      <p className="font-bold">Request Received!</p>
+                      <p className="text-xs text-emerald-700 mt-0.5">
+                        We will contact you with a quotation within the same day, regarding <strong>{service.title}</strong>.
+                      </p>
+                    </div>
                   </div>
+                  <a
+                    href={buildWhatsAppUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center space-x-2 px-4 py-2 bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    <span>Didn&rsquo;t open? Message us on WhatsApp</span>
+                  </a>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-3">
@@ -164,7 +203,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({
                     <button
                       type="button"
                       onClick={() => {
-                        onClose();
+                        handleClose();
                         onNavigateToContact();
                       }}
                       className="text-xs text-slate-500 hover:text-slate-800 underline"

@@ -7,6 +7,12 @@ import {
   MilestoneItem,
   CDCPackage,
 } from '../types';
+import jackieTanHeadshotImg from '../assets/images/jackie-tan-headshot.png';
+import bobbyTanHeadshotImg from '../assets/images/bobby-tan-headshot.png';
+import janiceFoonHeadshotImg from '../assets/images/janice-foon-headshot.jpg';
+import audreyLohHeadshotImg from '../assets/images/audrey-loh-headshot.jpg';
+import rajHeadshotImg from '../assets/images/raj-headshot.jpg';
+import eeKahTeikHeadshotImg from '../assets/images/ee-kah-teik-headshot.webp';
 
 export const NAV_ITEMS: NavItem[] = [
   { id: 'home', label: 'Home', href: 'index.html' },
@@ -46,6 +52,13 @@ import prudentialConventionCrowdImg from '../assets/images/prudential-convention
 import breakthroughStrongerGroupImg from '../assets/images/breakthrough-stronger-group.jpeg';
 import conventionHallwaySelfieImg from '../assets/images/convention-hallway-selfie.jpeg';
 import centralRecognition2025Img from '../assets/images/central-recognition-2025.jpeg';
+import coachHeroKaraokeGroupImg from '../assets/images/coach-hero-karaoke-group.jpg';
+import coachHeroOfficeGroupImg from '../assets/images/coach-hero-office-group.jpg';
+import coachHeroInternshipBatchImg from '../assets/images/coach-hero-internship-batch.jpg';
+import coachHeroYearKickoffImg from '../assets/images/coach-hero-year-kickoff.jpg';
+import coachHeroOfficeSelfieImg from '../assets/images/coach-hero-office-selfie.jpg';
+import coachHeroCardgameDuoImg from '../assets/images/coach-hero-cardgame-duo.jpg';
+import coachHeroCashflowGameImg from '../assets/images/coach-hero-cashflow-game.jpg';
 
 export const HERO_ROTATING_IMAGES = [
   {
@@ -122,6 +135,58 @@ export const HERO_ROTATING_IMAGES = [
   },
 ];
 
+export const COACH_HERO_ROTATING_IMAGES = [
+  {
+    id: 'coach-hero-karaoke-group',
+    url: coachHeroKaraokeGroupImg,
+    alt: 'Nuovo Paradigm team celebrating together',
+    caption: 'Celebrating Together',
+    subtitle: 'Our team knows how to celebrate every win'
+  },
+  {
+    id: 'coach-hero-office-group',
+    url: coachHeroOfficeGroupImg,
+    alt: 'Nuovo Paradigm team at the office',
+    caption: 'One Big Family',
+    subtitle: 'A close-knit team at our Damansara Intan office'
+  },
+  {
+    id: 'coach-hero-internship-batch',
+    url: coachHeroInternshipBatchImg,
+    alt: 'Nuovo Paradigm interns and associates group photo',
+    caption: 'Growing Talent',
+    subtitle: 'Welcoming our newest associates and interns'
+  },
+  {
+    id: 'coach-hero-year-kickoff',
+    url: coachHeroYearKickoffImg,
+    alt: 'Nuovo Paradigm team at Prudential year business kick-off 2026',
+    caption: 'Business Kick-Off 2026',
+    subtitle: 'Kicking off the new year stronger, together'
+  },
+  {
+    id: 'coach-hero-office-selfie',
+    url: coachHeroOfficeSelfieImg,
+    alt: 'Nuovo Paradigm team office selfie around a table',
+    caption: 'Office Moments',
+    subtitle: 'A fun, close-knit team at the office'
+  },
+  {
+    id: 'coach-hero-cardgame-duo',
+    url: coachHeroCardgameDuoImg,
+    alt: 'Nuovo Paradigm associates playing a training card game',
+    caption: 'Learning by Doing',
+    subtitle: 'Hands-on training that makes wealth planning fun'
+  },
+  {
+    id: 'coach-hero-cashflow-game',
+    url: coachHeroCashflowGameImg,
+    alt: 'Nuovo Paradigm associates playing the Cashflow board game',
+    caption: 'Mastering Cashflow',
+    subtitle: 'Practical financial literacy training in action'
+  },
+];
+
 export const ASSETS = {
   logo: '/images/nuovo-logo-white.png',
   logoWhite: '/images/nuovo-logo-white.png',
@@ -149,16 +214,13 @@ export const ASSETS = {
   diveBanner3: 'https://nuovoparadigm.com/wp-content/uploads/Upper-part-of-the-page_SCUBAMEDIC-CLASSIC-IDEC-INTERNATIONAL-DIVING-COVER.jpg',
 };
 
-export const HOME_TEAM_MEMBERS = [
-  { id: '1', name: 'Jackie Tan', image: 'https://nuovoparadigm.com/wp-content/uploads/JT-HP.jpg', role: 'Managing Director' },
-  { id: '2', name: 'Bobby Tan', image: 'https://nuovoparadigm.com/wp-content/uploads/BT-home-apge.jpg', role: 'Agency Leader' },
-  { id: '3', name: 'Audrey', image: 'https://nuovoparadigm.com/wp-content/uploads/Audrey-HP.jpg', role: 'Elite Planner' },
-  { id: '4', name: 'Ee Kah Teik', image: 'https://nuovoparadigm.com/wp-content/uploads/EE-HP.jpg', role: 'Wealth Planner' },
-  { id: '5', name: 'Sue-Ann', image: 'https://nuovoparadigm.com/wp-content/uploads/Sue-Ann-HP.jpg', role: 'Wealth Planner' },
-  { id: '6', name: 'KJ', image: 'https://nuovoparadigm.com/wp-content/uploads/KJ-HP.jpg', role: 'Wealth Planner' },
-  { id: '7', name: 'QL', image: 'https://nuovoparadigm.com/wp-content/uploads/QL-HP.jpg', role: 'Wealth Planner' },
-  { id: '8', name: 'Raj', image: 'https://nuovoparadigm.com/wp-content/uploads/Raj-HP.jpg', role: 'Wealth Planner' },
-  { id: '9', name: 'JF', image: 'https://nuovoparadigm.com/wp-content/uploads/JF-HP.jpg', role: 'Wealth Planner' },
+export const OUR_LEADERS = [
+  { id: 'jackie-tan', name: 'Jackie Tan', image: jackieTanHeadshotImg, role: 'Founder & Wealth Director', imageObjectPosition: 'center 8%' },
+  { id: 'bobby-tan', name: 'Bobby Tan', image: bobbyTanHeadshotImg, role: 'Wealth Director', imageObjectPosition: 'center 3%' },
+  { id: 'janice-foon', name: 'Janice Foon', image: janiceFoonHeadshotImg, role: 'Wealth Director', imageObjectPosition: 'center 10%' },
+  { id: 'audrey-loh', name: 'Audrey Loh', image: audreyLohHeadshotImg, role: '', imageObjectPosition: 'center 10%' },
+  { id: 'raj', name: 'Raj Paneerselvan', image: rajHeadshotImg, role: '', imageObjectPosition: 'center 10%' },
+  { id: 'ee-kah-teik', name: 'Ee Kah Teik', image: eeKahTeikHeadshotImg, role: '', imageObjectPosition: 'center 8%' },
 ];
 
 export const HOME_SLIDER_SECTIONS = [
@@ -174,46 +236,54 @@ export const HOME_SLIDER_SECTIONS = [
 
 export const TESTIMONIALS: Testimonial[] = [
   {
-    id: 'sean-yap',
-    name: 'Sean Yap',
-    role: 'Former Deputy General Manager',
+    id: 'jackie-tan',
+    name: 'Jackie Tan',
+    role: 'Founder & Wealth Director, Nuovo Paradigm',
     avatarBg: 'bg-blue-600',
-    image: 'https://nuovoparadigm.com/wp-content/uploads/Yap-Yik-Yee-Half-Body-min-scaled.jpg',
-    fallbackImage: 'https://nuovoparadigm.com/wp-content/uploads/2020/08/1591640486652_72893700_2547812488643394_510958528194674688_o.jpg',
-    quote: `I was deputy general manager in a company for almost 10 years and have a decent pay! But after 10 years, working day and night, I thought to myself "this is not going to be the way, otherwise my whole life will be working like a cow." That's when I joined this industry and this company.
+    image: jackieTanHeadshotImg,
+    imageObjectPosition: 'center 8%',
+    quote: `Jackie holds a Master of Science in Chemistry from the USA and began her career in technical sales, including roles with Roche and Mettler Toledo, before entering the wealth planning industry.
 
-Ever since I started, I’ve been qualifying for the company’s incentive trip every year. I believe these successes can only be achieved because of the guidance and coaching I received from the leaders throughout the years. The people here gives me a sense of belonging, I can always share my struggles and challenges with my leaders and able talk about anything. When we have set our goals, the leaders will share their experience on how to reach it faster and effectively. This is a young company and many things are done professionally unlike many 'older fashioned' and traditional companies out there.`,
+With 27 years of Starclub recognition and 8 years of MDRT, Jackie is a CHFP, CMFA and RFP, and has also been a speaker for MDRT Day Malaysia and BB conference.
+
+As the Founder of Nuovo Paradigm and 1 Stop Capitals, her passion is to build a professional platform where entrepreneurs can grow, collaborate and help more people achieve their financial goals.
+
+Today, Jackie’s focus is on building a sustainable organisation, developing future leaders and creating greater freedom through wealth and travel.
+
+“Whatever you experience, this shall pass too. Be bold and just do it!”`,
   },
   {
-    id: 'ee-kah-teik',
-    name: 'Ee Kah Teik',
-    role: 'Former Quality Manager / Engineer',
+    id: 'bobby-tan',
+    name: 'Bobby Tan',
+    role: 'Wealth Director, Nuovo Paradigm',
     avatarBg: 'bg-emerald-600',
-    image: 'https://nuovoparadigm.com/wp-content/uploads/MADyXBC4mOQ-1580358389983-min.png',
-    fallbackImage: 'https://nuovoparadigm.com/wp-content/uploads/EE-HP.jpg',
-    quote: `I came to a bottleneck in my career in a company that I’ve worked with for 4 years. Got promoted from an engineer to a quality manager and enjoyed the extra amount of good salary only at 27 years old. But I remained the same pay check for 3 years and there wasn't any more room for growth. Although I was grateful for this job and the opportunity, but I had no work life balance and this wasn't the life I desired.
+    image: bobbyTanHeadshotImg,
+    imageObjectPosition: 'center 3%',
+    quote: `Bobby Tan holds a Bachelor of Mechatronic Engineering from Monash University and began his career as a Project Engineer before moving into the wealth industry, where he has built 17 years of experience.
 
-Because of the training structure and the leader’s guidance in this company, I was able to hit my first goal in 6 months even working here part-time, that is RM1,000 per month. I only had weekends to work on this career when I started, but the leaders were helpful and generous to accommodate to my time. I thought that if I focus on this full-time, I’d be able to triple my income. True enough, my production tripled in 6 months time after I turned full-time. Unlike other companies, who I feel are more aggressive and like to “show off” the materialistic things, this company has a culture of humility and work their way up to gain trusts with their clients.`,
+A Certified Financial Planner, Bobby has achieved Starclub recognition throughout his journey and became the first TOT Unit Manager in Malaysia. His achievements include 1 MDRT, 4 COT and 1 TOT, as well as a single case with an annual premium of RM1.147 million.
+
+Today, Bobby is passionate about building and coaching a strong team of wealth planners to help more individuals and families plan their finances correctly.
+
+His vision is to build a team that can reach 10,000 people a year, making a meaningful difference in their financial lives.
+
+“Our vision is to build a team that helps more people build their financial shield, so they are better prepared for whatever life brings.”`,
   },
   {
-    id: 'sivakumar',
-    name: 'Sivakumar',
-    role: '20-Year Corporate Veteran (Astro™ Credit Risk)',
+    id: 'janice-foon',
+    name: 'Janice Foon',
+    role: 'Wealth Director, Nuovo Paradigm',
     avatarBg: 'bg-indigo-600',
-    image: 'https://nuovoparadigm.com/wp-content/uploads/siva.jpeg',
-    quote: `Believed it or not, I’ve been working in Astro™ for almost 20 years in the credit risk management department. Every year, working 9 to 5, making sure KPIs are hit. And then the next year, it will reset. It’s like an ongoing thing that will go on forever. That’s when I thought that the wealth planning industry was appealing because of the work-time flexibility coupled together with the unlimited income to earn.
+    image: janiceFoonHeadshotImg,
+    quote: `Janice Foon holds a Bachelor of Commerce in Marketing & Public Relations from the University of Wollongong, Australia. She joined Nuovo Paradigm in 2020 after a successful corporate career with a Japanese company.
 
-When I started out, my “Iron-Lady” leader almost never said no to me. At anytime when I had some questions or problems, I would call them and they’ll immediately assist me even meeting my clients together. As a result, in my third month in this company, I’ve actually hit my next 3 months’ target. All achieved within a month. The people here are very helpful and cooperative when it comes to sharing knowledge. Even the leaders who are busy, they will make time and will always share their experience.`,
-  },
-  {
-    id: 'janice',
-    name: 'Janice',
-    role: 'Former Corporate Sales Executive',
-    avatarBg: 'bg-rose-600',
-    image: 'https://nuovoparadigm.com/wp-content/uploads/Janice-31-of-41-min-scaled.jpg',
-    quote: `I was in sales, selling photocopier machines for close to 3 years.
+Within just 6 months, Janice achieved MDRT and Starclub, and was recognised as Top Rookie 2020. She was promoted to Unit Manager 1 in 2022 and has since grown into a passionate wealth leader and coach.
 
-Most of my appointments usually end late at night, yet I can be assured that even when I reach out to my leaders, they will attend to my queries. Because of their support, in my 2nd month I achieved the highest total production count among the year 1 and 2 planners. I really like how this company focused on the approach of ‘need-based’ selling. The whole process and culture of the way Nuovo Paradigm treats their clients really appealed and resonated with me. All of us will have the confidence of giving value to our clients and not just ‘being an agent’ for the sake of selling insurance.`,
+Once an anti-insurance advocate, Janice’s own journey changed her perspective and strengthened her belief in the importance of proper financial planning.
+
+Today, her focus is on building a strong team, developing people to reach their potential and creating greater financial freedom, while giving back to the community.
+
+“I want to help people plan better, grow stronger and achieve their biggest potential.”`,
   },
 ];
 
@@ -369,6 +439,63 @@ export const CORE_SERVICES: ServiceDetail[] = [
       'Wasiyyah (Islamic Will Writing)',
       'Waqf & Zakat Optimization',
       'Faraid Consultation & As-Salihin Partnership',
+    ],
+  },
+  {
+    id: 'general-insurance',
+    title: 'General Insurance',
+    tagline: 'Complete protection for your vehicles, property, and travels',
+    bgTheme: 'from-slate-900 to-blue-950',
+    icon: 'Car',
+    iconImage: 'https://nuovoparadigm.com/wp-content/uploads/Motor-Insurance.png',
+    description: [
+      'Shield your vehicles, homes, and business premises against accidents, fire, and unforeseen disasters.',
+      'Comprehensive worldwide travel protection for holidays, business trips, and frequent travelers.',
+      'Fast, hassle-free claims support backed by trusted underwriters including Generali and other insurers.',
+    ],
+    features: [
+      'Motor Insurance (1st & 3rd Party)',
+      'Fire & Property Insurance',
+      'International Travel Insurance',
+      'Takaful & Shariah-Compliant Options',
+    ],
+  },
+  {
+    id: 'will-and-trust',
+    title: 'Will & Trust',
+    tagline: 'Legally secure your legacy and protect your loved ones from disputes',
+    bgTheme: 'from-slate-800 to-slate-950',
+    icon: 'Scroll',
+    iconImage: 'https://nuovoparadigm.com/wp-content/uploads/Will-and-trust.png',
+    description: [
+      'Draft a legally binding Will to ensure your estate is distributed exactly as you intend, avoiding lengthy probate.',
+      'Set up Private and Insurance Trusts for immediate liquidity to your family, bypassing frozen asset delays.',
+      'Protect vulnerable beneficiaries such as minor children and elderly parents with structured, phased distributions.',
+    ],
+    features: [
+      'Will Writing & Custodianship',
+      'Private & Insurance Trust Setup',
+      'Guardian & Trustee Appointment',
+      'Asset Protection from Creditors',
+    ],
+  },
+  {
+    id: 'dive-coverage',
+    title: 'Dive Insurance',
+    tagline: 'World-class hyperbaric and dive accident coverage for divers',
+    bgTheme: 'from-cyan-950 to-blue-900',
+    icon: 'Waves',
+    iconImage: 'https://nuovoparadigm.com/wp-content/uploads/Diving-Coverage.png',
+    description: [
+      'Comprehensive Dive Coverage (CDC) combining international travel protection with dedicated hyperbaric chamber treatment.',
+      '24/7 emergency medical air evacuation for diving accidents, underwritten by Generali and DiveAssist.',
+      'Specialized protection for recreational divers, Pro-Divers, and Dive Instructors alike.',
+    ],
+    features: [
+      'Hyperbaric Chamber Treatment',
+      '24/7 Medical Air Evacuation',
+      'Travel & Dive Gear Protection',
+      'Pro-Diver & Instructor Liability',
     ],
   },
 ];
@@ -579,45 +706,103 @@ export const OTHER_SERVICES: OtherServiceItem[] = [
 
 export const MILESTONES: MilestoneItem[] = [
   {
-    year: '2009',
+    year: '2007',
     title: 'The Inception of Nuovo Paradigm',
-    subtitle: 'Jackie Tan & Bobby Tan establish the foundational system',
+    subtitle: 'Founded by Jackie Tan',
     description:
-      'Nuovo Paradigm was founded under the leadership of Managing Director Jackie Tan, bringing over 30 years of industry leadership and best practices. Together with Bobby Tan, they built an initial tight-knit team of 8 planners aiming for the 1 Million Sales Milestone.',
+      'Nuovo Paradigm was founded under the leadership of Jackie Tan, laying the initial vision and groundwork for a need-based, corporate wealth advisory agency in Malaysia.',
     icon: 'Sparkles',
-    image: 'https://nuovoparadigm.com/wp-content/uploads/vector-04-min.png',
-    stats: '8 Core Members • 1M Target',
+    stats: 'Founder: Jackie Tan',
+  },
+  {
+    year: '2009',
+    title: 'Bobby Tan Joins as Co-Founder',
+    subtitle: 'Building the foundation, process, system & training',
+    description:
+      'Bobby Tan came on board as Co-Founder, and together with Jackie Tan built the foundational systems, processes, and training frameworks with an initial team of 8 financial planners — achieving the agency’s first 1 Million Dollar production milestone.',
+    icon: 'Users',
+    stats: '8 Planners • RM1M Agency',
   },
   {
     year: '2011',
     title: 'Official Corporate Agency Recognition',
     subtitle: 'Accredited by Prudential Assurance Malaysia',
     description:
-      'Nuovo Paradigm was officially registered as an accredited corporate agency recognised by Prudential. That year, the team successfully hit and exceeded 1 Million in audited sales production.',
+      'Nuovo Paradigm was officially accredited as a Corporate Agency under Prudential Assurance Malaysia, marking a major step forward in institutional credibility and structure.',
     icon: 'Building2',
-    image: 'https://nuovoparadigm.com/wp-content/uploads/vector-05.png',
-    stats: '1.0M+ Annual Production',
+    stats: 'Prudential Accredited',
   },
   {
-    year: '2016',
-    title: 'The 2 Million Production Milestone',
-    subtitle: 'Systematic scaling of elite financial planners',
+    year: '2013',
+    title: 'Strengthening Systems & Training',
+    subtitle: 'Continued investment in agency process and development',
     description:
-      'With structured onboarding systems and mentorship frameworks, the agency surpassed the 2 Million sales target, establishing itself as a premier breeding ground for young leaders.',
+      'The agency continued refining its systems, processes, and training frameworks, reinforcing the foundation needed to scale sustainably in the years ahead.',
+    icon: 'Layers',
+  },
+  {
+    year: '2015',
+    title: '15 Quality Financial Planners',
+    subtitle: 'Growing a team of proven, high-caliber producers',
+    description:
+      'Nuovo Paradigm’s disciplined mentorship and training system matured, growing the agency to 15 quality financial planners recognized for consistent production and client service excellence.',
+    icon: 'Users',
+    stats: '15 Quality Planners',
+  },
+  {
+    year: '2017',
+    title: 'The 2 Million Dollar Agency',
+    subtitle: 'Scaling production through structured systems',
+    description:
+      'With a proven onboarding and mentorship system in place, the agency surpassed the 2 Million Dollar production mark, reinforcing its position as a premier training ground for wealth planners.',
     icon: 'TrendingUp',
-    image: 'https://nuovoparadigm.com/wp-content/uploads/vector-06-min.png',
-    stats: '2.0M+ Sales Volume',
+    stats: 'RM2M Agency',
   },
   {
     year: '2019',
-    title: '3.7 Million Benchmark & Industry Acclaim',
-    subtitle: 'Grew to 26 top quality producers and industry leadership awards',
+    title: 'The 3 Million Dollar Agency & President’s Award',
+    subtitle: 'Recognized with the Top MDRT Builder Award',
     description:
-      'The agency generated 3.7 Million in annual production, expanding to 26 full-time elite planners. Nuovo Paradigm was recognized by the industry to have established a proven system to build quality producers.',
+      'The agency achieved 3 Million in production and was honored with the President’s Award for Top MDRT Builder Award, cementing Nuovo Paradigm’s reputation for developing MDRT-caliber talent.',
     icon: 'Trophy',
-    image: 'https://nuovoparadigm.com/wp-content/uploads/team-work.png',
-    secondImage: 'https://nuovoparadigm.com/wp-content/uploads/business-profit-growth-min.png',
-    stats: '3.7M Production • 26 Top Planners',
+    stats: 'RM3M Agency • President’s Award',
+    highlight: true,
+  },
+  {
+    year: '2021',
+    title: 'First TOT Achiever',
+    subtitle: 'Producing our first Top of Table (TOT) MDRT qualifier',
+    description:
+      'Nuovo Paradigm produced its first Top of Table (TOT) achiever — the highest tier of MDRT recognition — a testament to the depth of the agency’s mentorship and technical planning capability.',
+    icon: 'Crown',
+    stats: '1st TOT Achiever',
+  },
+  {
+    year: '2023',
+    title: 'Consistent COT Achievers',
+    subtitle: 'Producing Court of Table (COT) MDRT qualifiers year after year',
+    description:
+      'From 2023 onwards, the agency has consistently produced Court of Table (COT) MDRT achievers annually, reflecting the sustained quality and discipline of its planners.',
+    icon: 'Medal',
+    stats: 'Yearly COT Achievers',
+  },
+  {
+    year: '2024',
+    title: 'The 4 Million Dollar Agency',
+    subtitle: 'Over 30 financial planners strong',
+    description:
+      'Nuovo Paradigm reached 4 Million in annual production with a growing bench of over 30 financial planners, one of the strongest and most established agencies of its kind in Malaysia.',
+    icon: 'TrendingUp',
+    stats: 'RM4M Agency • 30+ Planners',
+  },
+  {
+    year: '2026',
+    title: '40+ Financial Planners Strong',
+    subtitle: 'Our largest, most experienced team yet',
+    description:
+      'Nuovo Paradigm’s total number of financial planners has grown to exceed 40, representing our largest and most capable team since inception in 2007.',
+    icon: 'Users',
+    stats: '40+ Planners',
     highlight: true,
   },
 ];
@@ -678,3 +863,7 @@ export const CONTACT_INFO = {
   },
   generaliHotline: '+603 2142 0399',
 };
+
+// Free access key from web3forms.com, tied to CONTACT_INFO.email (contact@nuovoparadigm.com).
+// Sign up at https://web3forms.com/ with that address to get a real key, then paste it here.
+export const WEB3FORMS_ACCESS_KEY = 'YOUR_WEB3FORMS_ACCESS_KEY';
