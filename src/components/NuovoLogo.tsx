@@ -31,30 +31,17 @@ export const NuovoLogo: React.FC<NuovoLogoProps> = ({
     );
   }
 
-  // Full dark-text logo in header — uses the real checkmark asset (matches the footer mark)
-  // instead of the unreliable external nuovoparadigm.com-hosted image.
+  // Full dark-text logo in header — the exact same artwork as the footer mark
+  // (public/images/nuovo-logo-white.png), with only the white text pixels
+  // recolored to dark slate, so the typeface is pixel-identical, not a web-font approximation.
   if (variant === 'full') {
     return (
-      <div className={`inline-flex items-center space-x-2.5 select-none ${className}`} style={height ? { height } : undefined}>
+      <div className={`inline-flex items-center ${className}`} style={height ? { height } : undefined}>
         <img
-          src="/images/nuovo-logo-checkmark-transparent.png"
-          alt=""
-          className="h-full max-h-16 w-auto object-contain shrink-0"
+          src="/images/nuovo-logo-dark-text.png"
+          alt="Nuovo Paradigm"
+          className="h-full w-auto object-contain max-h-36"
         />
-        <div className="flex flex-col text-left leading-none">
-          <span
-            className="text-2xl sm:text-3xl font-black tracking-wider uppercase text-slate-800"
-            style={{ fontFamily: "'Montserrat', -apple-system, sans-serif", letterSpacing: '0.06em' }}
-          >
-            NUOVO
-          </span>
-          <span
-            className="text-sm sm:text-base font-extrabold tracking-widest uppercase -mt-0.5 text-[#2f9abc]"
-            style={{ fontFamily: "'Montserrat', -apple-system, sans-serif", letterSpacing: '0.18em' }}
-          >
-            PARADIGM
-          </span>
-        </div>
       </div>
     );
   }
