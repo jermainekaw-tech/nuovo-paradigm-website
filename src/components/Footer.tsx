@@ -122,7 +122,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                   onClick={(e) => handleLinkClick('elite-wealth-coach', e)}
                   className="hover:text-white transition-colors text-left text-blue-100/90 hover:underline cursor-pointer"
                 >
-                  Elite Wealth Coach Program
+                  Wealth Entrepreneur Program
                 </button>
               </li>
               <li>
