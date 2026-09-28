@@ -32,8 +32,8 @@ export default function App() {
   // Sync with browser URL / history for deep linking
   useEffect(() => {
     const parsePathToPage = (): PageId => {
-      const path = window.location.pathname.replace(/^\//, '').replace(/\.html$/, '');
-      const hash = window.location.hash.replace(/^#\/?/, '').replace(/\.html$/, '');
+      const path = window.location.pathname.replace(/^\//, '').replace(/\/$/, '').replace(/\.html$/, '');
+      const hash = window.location.hash.replace(/^#\/?/, '').replace(/\/$/, '').replace(/\.html$/, '');
       
       const target = hash || path;
       if (!target || target === 'index' || target === 'home') return 'home';
