@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { PageId } from '../types';
-import { TESTIMONIALS, CONTACT_INFO, COACH_HERO_ROTATING_IMAGES } from '../data/siteData';
+import { TESTIMONIALS, CONTACT_INFO, COACH_HERO_ROTATING_IMAGES, APPLY_NOW_FORM_URL } from '../data/siteData';
 import centralRecognition2025Img from '../assets/images/central-recognition-2025.jpeg';
 import eastspringAchieversImg from '../assets/images/eastspring-achievers-club-2025.jpeg';
 import coachBannerDiveConventionImg from '../assets/images/coach-banner-dive-convention.jpg';
@@ -13,17 +13,9 @@ import {
   ChevronRight,
   CheckCircle2,
   XCircle,
-  Send,
-  User,
-  Mail,
-  Phone,
-  Calendar,
   Clock,
-  Briefcase,
   Target,
   ArrowRight,
-  Paperclip,
-  X,
 } from 'lucide-react';
 
 interface EliteWealthCoachPageProps {
@@ -44,16 +36,6 @@ const OPPORTUNITY_BANNER_IMAGES = [
 export const EliteWealthCoachPage: React.FC<EliteWealthCoachPageProps> = ({ onNavigate }) => {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [imgErrorMap, setImgErrorMap] = useState<{ [key: string]: boolean }>({});
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    startDate: '',
-    status: 'Employed',
-  });
-  const [resumeFile, setResumeFile] = useState<File | null>(null);
-  const [resumeError, setResumeError] = useState('');
 
   const nextTestimonial = () => {
     setActiveTestimonial((prev) => (prev + 1) % TESTIMONIALS.length);
@@ -61,52 +43,6 @@ export const EliteWealthCoachPage: React.FC<EliteWealthCoachPageProps> = ({ onNa
 
   const prevTestimonial = () => {
     setActiveTestimonial((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
-  };
-
-  const handleResumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    if (!file) {
-      setResumeFile(null);
-      setResumeError('');
-      return;
-    }
-    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-    if (!allowedTypes.includes(file.type)) {
-      setResumeError('Please upload a PDF or Word document (.pdf, .doc, .docx).');
-      setResumeFile(null);
-      e.target.value = '';
-      return;
-    }
-    if (file.size > 5 * 1024 * 1024) {
-      setResumeError('File is too large. Please keep it under 5MB.');
-      setResumeFile(null);
-      e.target.value = '';
-      return;
-    }
-    setResumeError('');
-    setResumeFile(file);
-  };
-
-  const buildMailtoUrl = () => {
-    const subject = `New Wealth Coach Application - ${formData.name}`;
-    const bodyLines = [
-      `Name: ${formData.name}`,
-      `Email: ${formData.email}`,
-      `Phone: ${formData.phone}`,
-      `How Soon Can You Start: ${formData.startDate}`,
-      `Currently: ${formData.status}`,
-      '',
-      resumeFile
-        ? `IMPORTANT: Please attach "${resumeFile.name}" to this email before sending!`
-        : 'IMPORTANT: Please attach your resume/CV to this email before sending!',
-    ];
-    return `mailto:${CONTACT_INFO.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
-  };
-
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    window.location.href = buildMailtoUrl();
-    setFormSubmitted(true);
   };
 
   return (
@@ -428,201 +364,35 @@ export const EliteWealthCoachPage: React.FC<EliteWealthCoachPageProps> = ({ onNa
         </div>
       </section>
 
-      {/* 7. APPLICATION FORM SECTION (from home page) */}
+      {/* 7. APPLICATION FORM SECTION (links to Google Form) */}
       <section id="coach-form" className="bg-[#eaf8fa]/60 py-16 sm:py-20 border-t border-sky-200">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-4 space-y-3">
-              <div className="rounded-2xl overflow-hidden shadow-md mb-3">
-                <img
-                  src={COACH_HERO_ROTATING_IMAGES[4].url}
-                  alt={COACH_HERO_ROTATING_IMAGES[4].alt}
-                  className="w-full h-40 object-cover"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#2c72af]">Start Your Journey</span>
-              <h2 className="text-3xl font-bold font-serif text-slate-900">Apply Now</h2>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Fill in this form to begin exploring wealth planning opportunities with Nuovo Paradigm.
-              </p>
-              <div className="pt-4 text-xs text-slate-600 space-y-1">
-                <p><strong>Hotline:</strong> {CONTACT_INFO.phone}</p>
-                <p><strong>Talent Team:</strong> {CONTACT_INFO.email}</p>
-              </div>
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="bg-white rounded-3xl border border-sky-100 shadow-md p-8 sm:p-12">
+            <div className="rounded-2xl overflow-hidden shadow-md mb-6 max-w-sm mx-auto">
+              <img
+                src={COACH_HERO_ROTATING_IMAGES[4].url}
+                alt={COACH_HERO_ROTATING_IMAGES[4].alt}
+                className="w-full h-40 object-cover"
+                referrerPolicy="no-referrer"
+              />
             </div>
-
-            <div className="lg:col-span-8 bg-white p-6 sm:p-8 rounded-2xl shadow-md border border-sky-100">
-              {formSubmitted ? (
-                <div className="text-center py-8 space-y-3">
-                  <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
-                    <CheckCircle2 className="w-7 h-7" />
-                  </div>
-                  <h4 className="text-xl font-bold text-slate-900 font-serif">Application Received!</h4>
-                  <p className="text-sm text-slate-600 max-w-md mx-auto">
-                    Thank you, <strong>{formData.name}</strong>. We&rsquo;ve opened your email app with your application pre-filled to send to our talent team.
-                  </p>
-                  <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800 max-w-md mx-auto text-left">
-                    <strong>Important:</strong> please remember to attach{resumeFile ? <> <strong>{resumeFile.name}</strong></> : ' your resume/CV'} before hitting send in your email app!
-                  </div>
-                  <a
-                    href={buildMailtoUrl()}
-                    className="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#2c72af] hover:bg-[#2f9abc] text-white text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer"
-                  >
-                    <Mail className="w-4 h-4" />
-                    <span>Didn&rsquo;t open? Click to email us directly</span>
-                  </a>
-                  <div>
-                    <button
-                      onClick={() => {
-                        setFormSubmitted(false);
-                        setResumeFile(null);
-                      }}
-                      className="mt-2 px-5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg cursor-pointer"
-                    >
-                      Submit Another Response
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <form onSubmit={handleFormSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Name - (as per IC) *
-                    </label>
-                    <div className="relative">
-                      <User className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
-                      <input
-                        type="text"
-                        required
-                        placeholder="Your full legal name"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full pl-9 pr-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2c72af]"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">
-                        Email Address *
-                      </label>
-                      <div className="relative">
-                        <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
-                        <input
-                          type="email"
-                          required
-                          placeholder="Your working email"
-                          value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          className="w-full pl-9 pr-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2c72af]"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">
-                        Phone Number *
-                      </label>
-                      <div className="relative">
-                        <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
-                        <input
-                          type="tel"
-                          required
-                          placeholder="Your actual phone number"
-                          value={formData.phone}
-                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          className="w-full pl-9 pr-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2c72af]"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">
-                        How Soon Can You Start? *
-                      </label>
-                      <div className="relative">
-                        <Calendar className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
-                        <input
-                          type="date"
-                          required
-                          value={formData.startDate}
-                          onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                          className="w-full pl-9 pr-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2c72af]"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">
-                        Currently, you are? *
-                      </label>
-                      <div className="relative">
-                        <Briefcase className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
-                        <select
-                          value={formData.status}
-                          onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                          className="w-full pl-9 pr-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2c72af] bg-white"
-                        >
-                          <option value="Employed">Employed</option>
-                          <option value="Un-Employed">Un-Employed</option>
-                          <option value="Student">Student</option>
-                          <option value="Self Employed">Self Employed</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Attach Your Resume/CV
-                    </label>
-                    {resumeFile ? (
-                      <div className="flex items-center justify-between px-3 py-2 text-xs border border-slate-300 rounded-lg bg-slate-50">
-                        <span className="flex items-center space-x-2 text-slate-700 truncate">
-                          <Paperclip className="w-3.5 h-3.5 text-[#2c72af] shrink-0" />
-                          <span className="truncate">{resumeFile.name}</span>
-                        </span>
-                        <button
-                          type="button"
-                          onClick={() => setResumeFile(null)}
-                          className="p-1 text-slate-400 hover:text-slate-700 shrink-0"
-                          aria-label="Remove attached resume"
-                        >
-                          <X className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    ) : (
-                      <label className="flex items-center space-x-2 px-3 py-2 text-xs border border-dashed border-slate-300 rounded-lg text-slate-500 hover:border-[#2c72af] hover:text-[#2c72af] cursor-pointer transition-colors">
-                        <Paperclip className="w-3.5 h-3.5 shrink-0" />
-                        <span>Click to upload PDF or Word document (max 5MB)</span>
-                        <input
-                          type="file"
-                          accept=".pdf,.doc,.docx"
-                          onChange={handleResumeChange}
-                          className="hidden"
-                        />
-                      </label>
-                    )}
-                    {resumeError && (
-                      <p className="text-[11px] text-rose-600 mt-1">{resumeError}</p>
-                    )}
-                  </div>
-
-                  <div className="pt-2 flex justify-end">
-                    <button
-                      type="submit"
-                      className="px-6 py-2.5 bg-[#27bac4] hover:bg-[#20aab4] text-white text-xs font-bold rounded-lg shadow-sm flex items-center space-x-2 transition-all cursor-pointer"
-                    >
-                      <Send className="w-3.5 h-3.5" />
-                      <span>Apply Now!</span>
-                    </button>
-                  </div>
-                </form>
-              )}
+            <span className="text-xs font-bold uppercase tracking-wider text-[#2c72af]">Start Your Journey</span>
+            <h2 className="text-2xl sm:text-3xl font-bold font-serif text-slate-900 mt-1">Apply Now</h2>
+            <p className="text-sm text-slate-600 mt-2 max-w-md mx-auto leading-relaxed">
+              Click below to open our application form &mdash; it takes just a few minutes and lets you attach your resume/CV directly.
+            </p>
+            <a
+              href={APPLY_NOW_FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center justify-center space-x-2 px-8 py-3.5 bg-[#27bac4] hover:bg-[#20aab4] text-white font-bold text-sm rounded-xl shadow-md hover:shadow-lg transition-all"
+            >
+              <span>Apply Now</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
+            <div className="pt-6 mt-6 border-t border-slate-100 text-xs text-slate-600 space-y-1">
+              <p><strong>Hotline:</strong> {CONTACT_INFO.phone}</p>
+              <p><strong>Talent Team:</strong> {CONTACT_INFO.email}</p>
             </div>
           </div>
         </div>

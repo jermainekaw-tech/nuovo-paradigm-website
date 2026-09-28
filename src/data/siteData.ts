@@ -851,3 +851,7 @@ export const CONTACT_INFO = {
 
 // Access key from web3forms.com, tied to CONTACT_INFO.email (contact@nuovoparadigm.com).
 export const WEB3FORMS_ACCESS_KEY = '7512931b-cd05-41b8-b929-b92f05531d8e';
+
+// Canonical "Apply Now" Google Form, used across Home, Careers, and the Apply as Wealth Planner modal.
+// Handles all applicant fields plus resume/CV file upload natively (free, no attachment size limits from us).
+export const APPLY_NOW_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScmCo2dKSuJUIgJ-fujYYqZqOR96D6cVGErhuGLKDDCAFaXjQ/viewform';
