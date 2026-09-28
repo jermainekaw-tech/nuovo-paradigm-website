@@ -63,7 +63,7 @@ export const HERO_ROTATING_IMAGES = [
     alt: 'Eastspring Achievers Club 2025 - Egypt Trip Qualifiers, Central Region',
     caption: 'Eastspring Achievers Club 2025',
     subtitle: 'Egypt Trip Qualifiers - Central Region',
-    objectPosition: 'bottom'
+    objectPosition: 'center 70%'
   },
   {
     id: 'fast-and-furious-team',
