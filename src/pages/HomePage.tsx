@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PageId } from '../types';
-import { CONTACT_INFO, HERO_ROTATING_IMAGES, WEB3FORMS_ACCESS_KEY } from '../data/siteData';
+import { CONTACT_INFO, HERO_ROTATING_IMAGES } from '../data/siteData';
 import {
   Sparkles,
   CheckCircle2,
@@ -38,8 +38,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenApplyModal
   });
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [resumeError, setResumeError] = useState('');
-  const [isSending, setIsSending] = useState(false);
-  const [sendError, setSendError] = useState('');
 
   // Auto-rotate hero images every 5 seconds
   useEffect(() => {
@@ -82,37 +80,26 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenApplyModal
     setResumeFile(file);
   };
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
+  const buildMailtoUrl = () => {
+    const subject = `New Apply Now Application - ${formData.name}`;
+    const bodyLines = [
+      `Name: ${formData.name}`,
+      `Email: ${formData.email}`,
+      `Phone: ${formData.phone}`,
+      `How Soon Can You Start: ${formData.startDate}`,
+      `Currently: ${formData.status}`,
+      '',
+      resumeFile
+        ? `IMPORTANT: Please attach "${resumeFile.name}" to this email before sending!`
+        : 'IMPORTANT: Please attach your resume/CV to this email before sending!',
+    ];
+    return `mailto:${CONTACT_INFO.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSending(true);
-    setSendError('');
-    try {
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          subject: 'New Apply Now Application - Nuovo Paradigm',
-          from_name: formData.name,
-          email: formData.email,
-          Name: formData.name,
-          Phone: formData.phone,
-          'How Soon Can You Start': formData.startDate,
-          'Currently': formData.status,
-          'Resume Filename': resumeFile ? resumeFile.name : 'Not attached',
-        }),
-      });
-      const result = await response.json();
-      if (result.success) {
-        setFormSubmitted(true);
-      } else {
-        setSendError('We could not send your application. Please try again or email us directly at ' + CONTACT_INFO.email + '.');
-      }
-    } catch {
-      setSendError('We could not send your application. Please try again or email us directly at ' + CONTACT_INFO.email + '.');
-    } finally {
-      setIsSending(false);
-    }
+    window.location.href = buildMailtoUrl();
+    setFormSubmitted(true);
   };
 
   return (
@@ -144,11 +131,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenApplyModal
                   loading={idx === 0 ? 'eager' : 'lazy'}
                   fetchPriority={idx === 0 ? 'high' : 'low'}
                   decoding={idx === 0 ? 'sync' : 'async'}
-                  onError={(e) => {
-                    if (imgItem.fallbackUrl) {
-                      (e.target as HTMLImageElement).src = imgItem.fallbackUrl;
-                    }
-                  }}
                 />
               </div>
             );
@@ -490,25 +472,32 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenApplyModal
                   </div>
                   <h4 className="text-xl font-bold text-slate-900 font-serif">Application Received!</h4>
                   <p className="text-sm text-slate-600 max-w-md mx-auto">
-                    Thank you, <strong>{formData.name}</strong>. We&rsquo;ve emailed your application to our talent team &mdash; our recruitment coordinator will contact you shortly to schedule an interview.
+                    Thank you, <strong>{formData.name}</strong>. We&rsquo;ve opened your email app with your application pre-filled to send to our talent team.
                   </p>
-                  <button
-                    onClick={() => {
-                      setFormSubmitted(false);
-                      setResumeFile(null);
-                    }}
-                    className="mt-4 px-5 py-2 bg-[#2c72af] text-white text-xs font-bold rounded-lg cursor-pointer"
+                  <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800 max-w-md mx-auto text-left">
+                    <strong>Important:</strong> please remember to attach{resumeFile ? <> <strong>{resumeFile.name}</strong></> : ' your resume/CV'} before hitting send in your email app!
+                  </div>
+                  <a
+                    href={buildMailtoUrl()}
+                    className="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#2c72af] hover:bg-[#2f9abc] text-white text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer"
                   >
-                    Submit Another Response
-                  </button>
+                    <Mail className="w-4 h-4" />
+                    <span>Didn&rsquo;t open? Click to email us directly</span>
+                  </a>
+                  <div>
+                    <button
+                      onClick={() => {
+                        setFormSubmitted(false);
+                        setResumeFile(null);
+                      }}
+                      className="mt-2 px-5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg cursor-pointer"
+                    >
+                      Submit Another Response
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleFormSubmit} className="space-y-4">
-                  {sendError && (
-                    <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-xs text-rose-700">
-                      {sendError}
-                    </div>
-                  )}
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1">
                       Name - (as per IC) *
@@ -638,11 +627,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenApplyModal
                   <div className="pt-2 flex justify-end">
                     <button
                       type="submit"
-                      disabled={isSending}
-                      className="px-6 py-2.5 bg-[#27bac4] hover:bg-[#20aab4] disabled:opacity-60 disabled:cursor-not-allowed text-white text-xs font-bold rounded-lg shadow-sm flex items-center space-x-2 transition-all cursor-pointer"
+                      className="px-6 py-2.5 bg-[#27bac4] hover:bg-[#20aab4] text-white text-xs font-bold rounded-lg shadow-sm flex items-center space-x-2 transition-all cursor-pointer"
                     >
                       <Send className="w-3.5 h-3.5" />
-                      <span>{isSending ? 'Sending...' : 'Apply Now!'}</span>
+                      <span>Apply Now!</span>
                     </button>
                   </div>
                 </form>

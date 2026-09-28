@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, CheckCircle, Sparkles, Send, User, Mail, Phone, Calendar, Briefcase } from 'lucide-react';
+import { X, CheckCircle, Sparkles, Send, User, Mail, Phone, Calendar, Briefcase, Paperclip } from 'lucide-react';
 import { CONTACT_INFO } from '../data/siteData';
 
 interface ApplicationModalProps {
@@ -20,16 +20,60 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
     reason: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [resumeError, setResumeError] = useState('');
 
   if (!isOpen) return null;
 
+  const handleResumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    if (!file) {
+      setResumeFile(null);
+      setResumeError('');
+      return;
+    }
+    const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    if (!allowedTypes.includes(file.type)) {
+      setResumeError('Please upload a PDF or Word document (.pdf, .doc, .docx).');
+      setResumeFile(null);
+      e.target.value = '';
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setResumeError('File is too large. Please keep it under 5MB.');
+      setResumeFile(null);
+      e.target.value = '';
+      return;
+    }
+    setResumeError('');
+    setResumeFile(file);
+  };
+
+  const buildMailtoUrl = () => {
+    const subject = `New Wealth Planner Application - ${formData.name}`;
+    const bodyLines = [
+      `Name: ${formData.name}`,
+      `Email: ${formData.email}`,
+      `Phone: ${formData.phone}`,
+      `How Soon Can You Start: ${formData.startDate}`,
+      `Current Employment Status: ${formData.employmentStatus}`,
+      '',
+      resumeFile
+        ? `IMPORTANT: Please attach "${resumeFile.name}" to this email before sending!`
+        : 'IMPORTANT: Please attach your resume/CV to this email before sending!',
+    ];
+    return `mailto:${CONTACT_INFO.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    window.location.href = buildMailtoUrl();
     setSubmitted(true);
   };
 
   const handleReset = () => {
     setSubmitted(false);
+    setResumeFile(null);
     setFormData({
       name: '',
       email: '',
@@ -71,8 +115,18 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
               </div>
               <h4 className="text-xl font-bold text-slate-900 font-serif">Application Submitted!</h4>
               <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-                Thank you, <strong>{formData.name}</strong>. Our leadership team has received your application. We will reach out to you via phone or WhatsApp at <strong>{formData.phone}</strong> within 1-2 business days to schedule an introductory discovery session.
+                Thank you, <strong>{formData.name}</strong>. We&rsquo;ve opened your email app with your application pre-filled to send to our leadership team.
               </p>
+              <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800 max-w-md mx-auto text-left">
+                <strong>Important:</strong> please remember to attach{resumeFile ? <> <strong>{resumeFile.name}</strong></> : ' your resume/CV'} before hitting send in your email app!
+              </div>
+              <a
+                href={buildMailtoUrl()}
+                className="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#2c72af] hover:bg-[#2f9abc] text-white text-xs font-bold rounded-lg shadow-sm transition-colors cursor-pointer"
+              >
+                <Mail className="w-4 h-4" />
+                <span>Didn&rsquo;t open? Click to email us directly</span>
+              </a>
               <div className="p-4 bg-[#eaf8fa] rounded-xl border border-[#27bac4]/30 text-xs text-slate-700 text-left space-y-1">
                 <p><strong>Office:</strong> {CONTACT_INFO.addressLine1}</p>
                 <p><strong>Contact:</strong> {CONTACT_INFO.phone} | {CONTACT_INFO.email}</p>
@@ -169,13 +223,49 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({
                       onChange={(e) => setFormData({ ...formData, employmentStatus: e.target.value })}
                       className="w-full pl-9 pr-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#2c72af] focus:border-transparent bg-white"
                     >
-                      <option value="Employed">Employed (Full-time)</option>
-                      <option value="Un-Employed">Unemployed / Seeking Growth</option>
-                      <option value="Student">Student / Fresh Graduate</option>
-                      <option value="Self Employed">Self Employed / Freelancer</option>
+                      <option value="Employed">Employed</option>
+                      <option value="Un-Employed">Un-Employed</option>
+                      <option value="Student">Student</option>
+                      <option value="Self Employed">Self Employed</option>
                     </select>
                   </div>
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Attach Your Resume/CV
+                </label>
+                {resumeFile ? (
+                  <div className="flex items-center justify-between px-3 py-2 text-xs border border-slate-300 rounded-lg bg-slate-50">
+                    <span className="flex items-center space-x-2 text-slate-700 truncate">
+                      <Paperclip className="w-3.5 h-3.5 text-[#2c72af] shrink-0" />
+                      <span className="truncate">{resumeFile.name}</span>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setResumeFile(null)}
+                      className="p-1 text-slate-400 hover:text-slate-700 shrink-0"
+                      aria-label="Remove attached resume"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ) : (
+                  <label className="flex items-center space-x-2 px-3 py-2 text-xs border border-dashed border-slate-300 rounded-lg text-slate-500 hover:border-[#2c72af] hover:text-[#2c72af] cursor-pointer transition-colors">
+                    <Paperclip className="w-3.5 h-3.5 shrink-0" />
+                    <span>Click to upload PDF or Word document (max 5MB)</span>
+                    <input
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                      onChange={handleResumeChange}
+                      className="hidden"
+                    />
+                  </label>
+                )}
+                {resumeError && (
+                  <p className="text-[11px] text-rose-600 mt-1">{resumeError}</p>
+                )}
               </div>
 
               <div className="pt-2">

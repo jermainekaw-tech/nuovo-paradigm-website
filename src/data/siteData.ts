@@ -39,7 +39,6 @@ export const FOOTER_LINKS = [
   { id: 'contact', label: 'Contact' },
 ];
 
-import teamStudioImg from '../assets/images/hero-1536x1025.jpg';
 import eastspringAchieversImg from '../assets/images/eastspring-achievers-club-2025.jpeg';
 import fastAndFuriousTeamImg from '../assets/images/fast-and-furious-team.jpeg';
 import cashflow2026Img from '../assets/images/cashflow-2026.jpeg';
@@ -58,14 +57,6 @@ import coachHeroCardgameDuoImg from '../assets/images/coach-hero-cardgame-duo.jp
 import coachHeroCashflowGameImg from '../assets/images/coach-hero-cashflow-game.jpg';
 
 export const HERO_ROTATING_IMAGES = [
-  {
-    id: 'team-studio',
-    url: teamStudioImg,
-    fallbackUrl: '/hero-1536x1025.jpg',
-    alt: 'Nuovo Paradigm Advisory & Leadership Team',
-    caption: 'Nuovo Paradigm Wealth Planners',
-    subtitle: 'Helping our clients achieve financial independence'
-  },
   {
     id: 'eastspring-achievers-club-2025',
     url: eastspringAchieversImg,
@@ -858,6 +849,5 @@ export const CONTACT_INFO = {
   generaliHotline: '+603 2142 0399',
 };
 
-// Free access key from web3forms.com, tied to CONTACT_INFO.email (contact@nuovoparadigm.com).
-// Sign up at https://web3forms.com/ with that address to get a real key, then paste it here.
-export const WEB3FORMS_ACCESS_KEY = 'YOUR_WEB3FORMS_ACCESS_KEY';
+// Access key from web3forms.com, tied to CONTACT_INFO.email (contact@nuovoparadigm.com).
+export const WEB3FORMS_ACCESS_KEY = '7512931b-cd05-41b8-b929-b92f05531d8e';
