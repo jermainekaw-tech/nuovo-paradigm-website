@@ -67,7 +67,7 @@ export const CDCPage: React.FC<CDCPageProps> = ({ onNavigate }) => {
               <tbody className="divide-y divide-slate-100 text-xs text-slate-700">
                 <tr className="hover:bg-slate-50/80">
                   <td className="py-3.5 px-4 font-bold text-slate-900">
-                    Dive &amp; Travel (Int&rsquo;-1) + Pandemic
+                    Dive &amp; Travel (Int&rsquo;-1) + Flight Cancellation
                   </td>
                   <td className="py-3.5 px-4 text-slate-500">
                     Asia-Pacific (Australia, Japan, Indonesia, Thailand, China, etc.)
@@ -78,7 +78,7 @@ export const CDCPage: React.FC<CDCPageProps> = ({ onNavigate }) => {
 
                 <tr className="hover:bg-slate-50/80">
                   <td className="py-3.5 px-4 font-bold text-slate-900">
-                    Dive &amp; Travel (Int&rsquo;-2) + Pandemic
+                    Dive &amp; Travel (Int&rsquo;-2) + Flight Cancellation
                   </td>
                   <td className="py-3.5 px-4 text-slate-500">
                     Worldwide coverage (Excluding USA, Canada, sanctioned countries)

@@ -77,21 +77,24 @@ export const HERO_ROTATING_IMAGES = [
     url: cashflow2026Img,
     alt: 'Ca$hflow 2026 event with the team',
     caption: 'Ca$hflow 2026',
-    subtitle: 'Building financial literacy together'
+    subtitle: 'Building financial literacy together',
+    objectPosition: 'center 50%'
   },
   {
     id: 'badminton-team-outing',
     url: badmintonTeamOutingImg,
     alt: 'Nuovo Paradigm team badminton outing',
     caption: 'Team Bonding',
-    subtitle: 'Building camaraderie on and off the court'
+    subtitle: 'Building camaraderie on and off the court',
+    objectPosition: 'center 50%'
   },
   {
     id: 'team-meeting-selfie',
     url: teamMeetingSelfieImg,
     alt: 'Nuovo Paradigm team meeting selfie',
     caption: 'Growing Together',
-    subtitle: 'Our team at a company meeting'
+    subtitle: 'Our team at a company meeting',
+    objectPosition: 'center 30%'
   },
   {
     id: 'prudential-convention-crowd',
@@ -795,7 +798,7 @@ export const MILESTONES: MilestoneItem[] = [
 export const CDC_PACKAGES: CDCPackage[] = [
   {
     id: 'dive-travel-int1',
-    name: "Dive & Travel (Int'-1) + Pandemic Cover",
+    name: "Dive & Travel (Int'-1) + Flight Cancellation",
     annualMYR: 813,
     weeklyMYR: 238,
     description:
@@ -804,7 +807,7 @@ export const CDC_PACKAGES: CDCPackage[] = [
   },
   {
     id: 'dive-travel-int2',
-    name: "Dive & Travel (Int'-2) + Pandemic Cover",
+    name: "Dive & Travel (Int'-2) + Flight Cancellation",
     annualMYR: 1027,
     weeklyMYR: 304,
     description:
