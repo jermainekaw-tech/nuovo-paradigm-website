@@ -1,5 +1,12 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/:page(about|about-us|services|other-services|elite-wealth-coach|elite-wealth-manager|milestone|milestones|contact|contact-us|cdc|cdc2|psp|payment|clsc|clse|eventregistration|events|agent-feedback)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/:page(about|about-us|services|other-services|elite-wealth-coach|elite-wealth-manager|milestone|milestones|contact|contact-us|cdc|cdc2|psp|payment|clsc|clse|eventregistration|events|agent-feedback)/",
+      "destination": "/index.html"
+    }
   ]
 }
