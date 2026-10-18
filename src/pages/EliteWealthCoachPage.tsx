@@ -48,7 +48,7 @@ export const EliteWealthCoachPage: React.FC<EliteWealthCoachPageProps> = ({ onNa
   return (
     <div className="w-full bg-white">
       {/* 1. HERO SECTION: Plain Gradient Background (matches Products & Services hero colors) */}
-      <section className="relative overflow-hidden bg-gradient-to-r from-[#27bac4] via-[#2f9abc] to-[#2c72af] text-white py-20 sm:py-28 border-b border-[#27bac4]/30">
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#173e60] via-[#0b2742] to-slate-950 text-white py-20 sm:py-28 border-b border-[#173e60]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
           <div className="max-w-3xl mx-auto text-center flex flex-col items-center space-y-6">
             <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-sky-200 text-xs font-bold uppercase tracking-wider">
@@ -57,7 +57,7 @@ export const EliteWealthCoachPage: React.FC<EliteWealthCoachPageProps> = ({ onNa
             <h1 className="text-3xl sm:text-5xl font-bold font-serif text-white leading-tight">
               We believe in growing together with our clients and our associates.
             </h1>
-            <p className="text-xl font-medium text-sky-100 leading-relaxed">
+            <p className="text-xl font-medium text-[#27bac4] leading-relaxed">
               Growth in terms of wealth and asset, increase net worth &amp; financial knowledge.
             </p>
             <div className="pt-2 flex items-center justify-center space-x-4">

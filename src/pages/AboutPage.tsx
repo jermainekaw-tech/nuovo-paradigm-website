@@ -40,7 +40,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
   return (
     <div className="w-full bg-white">
       {/* 1. VISION HERO BANNER: Plain Gradient Background (mirrors the Careers page hero) */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#173e60] via-[#0b2742] to-slate-950 py-20 sm:py-28 border-b border-[#173e60]">
+      <section className="relative overflow-hidden bg-gradient-to-r from-[#27bac4] via-[#2f9abc] to-[#2c72af] py-20 sm:py-28 border-b border-[#27bac4]/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
           <div className="max-w-3xl mx-auto text-center flex flex-col items-center space-y-6">
             <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-sky-200 text-xs font-bold uppercase tracking-wider">
@@ -49,7 +49,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
             <h1 className="text-3xl sm:text-5xl font-bold font-serif text-white leading-tight">
               Our Vision
             </h1>
-            <p className="text-xl font-medium text-[#27bac4] leading-relaxed">
+            <p className="text-xl font-medium text-sky-100 leading-relaxed">
               &ldquo;We aspire to build a group of millionaires that earned the choice of living their desired lifestyle with a balance in all aspects of their lives.&rdquo;
             </p>
           </div>

@@ -175,13 +175,6 @@ export const Header: React.FC<HeaderProps> = ({
 
           <div className="mt-4 pt-4 border-t border-slate-100 space-y-1">
             <button
-              onClick={() => handleNavClick('cdc2')}
-              className="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-[#27bac4] transition-colors cursor-pointer flex items-center gap-2"
-            >
-              <Shield className="w-4 h-4 text-[#27bac4] shrink-0" />
-              <span>Dive &amp; Travel Insurance (CDC)</span>
-            </button>
-            <button
               onClick={() => handleNavClick('eventregistration')}
               className="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-[#27bac4] transition-colors cursor-pointer flex items-center gap-2"
             >
