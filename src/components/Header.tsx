@@ -8,6 +8,8 @@ import {
   MapPin,
   Shield,
   Calendar,
+  Menu,
+  X,
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -22,6 +24,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenApplyModal: _onOpenApplyModal,
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,8 +34,17 @@ export const Header: React.FC<HeaderProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock body scroll while the drawer is open
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
   const handleNavClick = (page: PageId) => {
     onNavigate(page);
+    setIsMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -87,41 +99,109 @@ export const Header: React.FC<HeaderProps> = ({
           isScrolled ? 'shadow-md border-b border-slate-200/80 py-1 sm:py-1.5' : 'border-b border-slate-100 py-1.5 sm:py-2'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4 min-h-[4.25rem]">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 min-h-[4.25rem]">
           {/* Logo */}
-          <div className="w-full md:w-auto flex items-center justify-between shrink-0">
-            <button
-              onClick={() => handleNavClick('home')}
-              className="flex items-center text-left group focus:outline-none transition-transform hover:opacity-95 py-0.5"
-              aria-label="Nuovo Paradigm Homepage"
-            >
-              <NuovoLogo className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto" />
-            </button>
-          </div>
+          <button
+            onClick={() => handleNavClick('home')}
+            className="flex items-center text-left group focus:outline-none transition-transform hover:opacity-95 py-0.5 shrink-0"
+            aria-label="Nuovo Paradigm Homepage"
+          >
+            <NuovoLogo className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto" />
+          </button>
 
-          {/* Horizontal Tabs Header Bar - Visible Horizontally on all screens */}
-          <div className="w-full md:w-auto flex items-center space-x-1 sm:space-x-1.5 overflow-x-auto py-1 scrollbar-none no-scrollbar">
+          {/* Hamburger menu trigger */}
+          <button
+            onClick={() => setIsMenuOpen(true)}
+            className="p-2.5 rounded-lg text-slate-700 hover:bg-slate-100 hover:text-[#27bac4] transition-colors cursor-pointer"
+            aria-label="Open navigation menu"
+            aria-expanded={isMenuOpen}
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+        </div>
+      </nav>
+
+      {/* Backdrop */}
+      <div
+        onClick={() => setIsMenuOpen(false)}
+        className={`fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs transition-opacity duration-300 ${
+          isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        aria-hidden="true"
+      />
+
+      {/* Right-side slide-in drawer */}
+      <div
+        className={`fixed top-0 right-0 z-50 h-full w-full max-w-xs bg-white shadow-2xl transition-transform duration-300 ease-in-out flex flex-col ${
+          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site navigation"
+      >
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 shrink-0">
+          <NuovoLogo className="h-9 w-auto" />
+          <button
+            onClick={() => setIsMenuOpen(false)}
+            className="p-2 rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition-colors cursor-pointer"
+            aria-label="Close navigation menu"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <nav className="flex-1 overflow-y-auto px-3 py-4">
+          <ul className="space-y-1">
             {NAV_ITEMS.map((item) => {
               const isActive =
                 currentPage === item.id ||
                 (item.id === 'elite-wealth-coach' && currentPage === 'elite-wealth-manager');
               return (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavClick(item.id)}
-                  className={`px-2.5 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm whitespace-nowrap transition-colors cursor-pointer shrink-0 ${
-                    isActive
-                      ? 'text-[#27bac4] font-bold'
-                      : 'text-slate-700 font-medium hover:text-[#27bac4]'
-                  }`}
-                >
-                  {item.label}
-                </button>
+                <li key={item.id}>
+                  <button
+                    onClick={() => handleNavClick(item.id)}
+                    className={`w-full text-left px-4 py-3 rounded-lg text-sm transition-colors cursor-pointer ${
+                      isActive
+                        ? 'bg-[#eaf8fa] text-[#27bac4] font-bold'
+                        : 'text-slate-700 font-medium hover:bg-slate-50 hover:text-[#27bac4]'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                </li>
               );
             })}
+          </ul>
+
+          <div className="mt-4 pt-4 border-t border-slate-100 space-y-1">
+            <button
+              onClick={() => handleNavClick('cdc2')}
+              className="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-[#27bac4] transition-colors cursor-pointer flex items-center gap-2"
+            >
+              <Shield className="w-4 h-4 text-[#27bac4] shrink-0" />
+              <span>Dive &amp; Travel Insurance (CDC)</span>
+            </button>
+            <button
+              onClick={() => handleNavClick('eventregistration')}
+              className="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-[#27bac4] transition-colors cursor-pointer flex items-center gap-2"
+            >
+              <Calendar className="w-4 h-4 text-[#27bac4] shrink-0" />
+              <span>Events</span>
+            </button>
           </div>
+        </nav>
+
+        <div className="px-5 py-4 border-t border-slate-100 text-xs text-slate-600 space-y-2 shrink-0">
+          <a href={`tel:${CONTACT_INFO.phone}`} className="flex items-center space-x-2 hover:text-[#27bac4] transition-colors">
+            <Phone className="w-3.5 h-3.5 text-[#2c72af] shrink-0" />
+            <span>{CONTACT_INFO.phone}</span>
+          </a>
+          <a href={`mailto:${CONTACT_INFO.email}`} className="flex items-center space-x-2 hover:text-[#27bac4] transition-colors">
+            <Mail className="w-3.5 h-3.5 text-[#2c72af] shrink-0" />
+            <span>{CONTACT_INFO.email}</span>
+          </a>
         </div>
-      </nav>
+      </div>
     </header>
   );
 };

@@ -9,6 +9,7 @@ import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { OtherServicesPage } from './pages/OtherServicesPage';
+import { OurPartnersPage } from './pages/OurPartnersPage';
 import { EliteWealthCoachPage } from './pages/EliteWealthCoachPage';
 import { EliteWealthManagerPage } from './pages/EliteWealthManagerPage';
 import { MilestonePage } from './pages/MilestonePage';
@@ -40,6 +41,7 @@ export default function App() {
       if (target === 'about' || target === 'about-us') return 'about-us';
       if (target === 'services') return 'services';
       if (target === 'other-services') return 'other-services';
+      if (target === 'our-partners' || target === 'partners') return 'our-partners';
       if (target === 'elite-wealth-coach') return 'elite-wealth-coach';
       if (target === 'elite-wealth-manager') return 'elite-wealth-manager';
       if (target === 'milestone' || target === 'milestones') return 'milestone';
@@ -109,6 +111,8 @@ export default function App() {
             onSelectService={(srv) => setSelectedService(srv)}
           />
         );
+      case 'our-partners':
+        return <OurPartnersPage onNavigate={navigateTo} />;
       case 'elite-wealth-coach':
         return <EliteWealthCoachPage onNavigate={navigateTo} />;
       case 'elite-wealth-manager':

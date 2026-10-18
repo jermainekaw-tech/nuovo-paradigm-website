@@ -3,6 +3,7 @@ export type PageId =
   | 'about-us'
   | 'services'
   | 'other-services'
+  | 'our-partners'
   | 'elite-wealth-coach'
   | 'elite-wealth-manager'
   | 'milestone'

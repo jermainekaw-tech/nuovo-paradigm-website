@@ -15,6 +15,7 @@ export const NAV_ITEMS: NavItem[] = [
   { id: 'home', label: 'Home', href: 'index.html' },
   { id: 'milestone', label: 'Our Milestones', href: 'milestone.html' },
   { id: 'services', label: 'Products & Services', href: 'services.html' },
+  { id: 'our-partners', label: 'Our Partners', href: 'our-partners.html' },
   { id: 'about-us', label: 'Our Leaders', href: 'about-us.html' },
   { id: 'elite-wealth-coach', label: 'Careers', href: 'elite-wealth-coach.html' },
   { id: 'cdc2', label: 'Dive Assist', href: 'cdc2.html' },
